@@ -1,0 +1,68 @@
+/* color templates */
+/* 6B0000 */
+/* EADCDC */
+
+
+body{
+  font-family: 'IBM Plex Sans Thai';
+}
+.container{
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+.nav-contrainer{
+  background-color: #6B0000;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-text{
+  color: white;
+}
+
+.center{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  background: #EADCDC;
+  border-radius: 10px;
+}
+
+.column {
+  float: left;
+  padding: 10px;
+  height: 490px;
+}
+
+.leftBox {
+  width: 30%;
+}
+
+.rightBox {
+  width: 70%;
+}
+
+.text-align-center{
+  text-align: center;
+}
+
+.centerBox{
+  padding: 50px 0 50px;
+}
+
+
+/* responsive */
+@media screen and (max-width: 1550px) {
+  
+  .auto-hidden{ 
+    display: none; 
+  }
+     /* hide it elsewhere */
+  .leftBox {
+    width: 100%;
+  }
+}
