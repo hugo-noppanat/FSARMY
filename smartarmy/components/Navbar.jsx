@@ -1,30 +1,30 @@
 import Image from 'next/image'
 import { useRouter } from 'next/router'
-import logo from '../image/logo.png'
+import logo from '../image/logo_default.png'
 export default function Navbar() {
     const router = useRouter()
     const direction = () => {
         let href = "/login"
-        router.push(href)
+        router.push({pathname: href})
     }
     return(
         <div className='row nav-contrainer'>
-            <div className='col-lg-12'>
+            <div className='col'>
                 <div className='navbar navber-defualt'>
                     <div className="container">
                         <div className="navbar-header">
-                            <div className="navbar-brand">
+                            <div className="navbar-brand mb-1">
                                 <Image 
                                     src={logo}
-                                    width={60}
-                                    height={60}
+                                    width={45}
+                                    height={70}
                                 />
                                 <h3 className='navbar-text mx-3 mt-3'>ระบบจัดการข้อมูลทหารใหม่</h3>
                             </div>
                         </div>
-                        <div >
+                    </div>
+                    <div className='navbar-right mt-3'>
                             <p className='navbar-text' onClick={direction}>ล็อกอิน</p>
-                        </div>
                     </div>
                 </div>
             </div>

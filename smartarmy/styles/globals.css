@@ -1,7 +1,12 @@
 /* color templates */
 /* 6B0000 */
 /* EADCDC */
+:root{
+  --primary: #0C9AEC;
+  --secondary: #84CDF8;
+  --third: #0F74AC;
 
+}
 
 body{
   font-family: 'IBM Plex Sans Thai';
@@ -12,13 +17,18 @@ body{
   width: 100%;
 }
 .nav-contrainer{
-  background-color: #6B0000;
+  background-color: var(--primary);
   margin: 0;
   padding: 0;
 }
 
 .navbar-text{
-  color: white;
+  color: #FFFFFF;
+  cursor: pointer;
+}
+
+.navbar-right{
+  float: right;
 }
 
 .center{
@@ -28,7 +38,7 @@ body{
   transform: translate(-50%, -50%);
   width: 70%;
   height: 70%;
-  background: #EADCDC;
+  background: var(--secondary);
   border-radius: 10px;
 }
 
@@ -65,4 +75,49 @@ body{
   .leftBox {
     width: 100%;
   }
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-header{
+  background-color: var(--primary);
+  width: auto;
+  height: 50px;
+}
+
+.footer-body{
+  color: #FFFFFF;
+}
+
+.menuCard{
+  background-color: var(--secondary);
+  /* border: 2px solid #6B0000; */
+  border-radius: 20px;
+  width: 280px;
+  height: 150px;
+  margin: 10px;
+}
+
+.headerCard h4{
+  font-weight: bold;
+}
+
+.menuCardColumn {
+  float: left;
+  padding: 10px;
+  height: 100px;
+}
+
+.icons i{
+  font-size:35px;
+  /* border: 5px solid green; */
+}
+
+.icons{
+  text-align: center;
+  width: 100%;
 }

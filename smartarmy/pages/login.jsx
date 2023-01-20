@@ -4,13 +4,21 @@ import InputVertical from "../components/InputVertical";
 import Buttons from "../components/button";
 import cover from '../image/cover.jpg';
 import Image from 'next/image';
-import logo from '../image/logo.png'
+import logo from '../image/logo_non_bg.png'
+import useAxios from "../components/UseAxios";
 
 export default function login(){
     const reactHookForm = useForm();
     const {register,handleSubmit} = reactHookForm;
-    const OnClicks = (data) =>{
-        console.log(data)
+    const loginbyUser = (data) =>{
+        useAxios({
+            mothod: 'post',
+            url: `${process.env.SSARMY_AUTHEN}/authen/login`,
+            data:{
+                USER_ID: data.username,
+                PASSWORD: data.password
+            }
+        })
     }
 
     return(
@@ -25,14 +33,14 @@ export default function login(){
             </div>
 
             <div className="column leftBox">
-                <form onSubmit={handleSubmit(OnClicks)}>
+                <form onSubmit={handleSubmit(loginbyUser)}>
                     <div className="col">
-                        <div className="centerBox">
+                        {/* <div className="centerBox"> */}
                             <div className="col col-md-12 text-center">
                                 <Image
                                     src={logo}
                                     width={90}
-                                    height={90}
+                                    height={130}
                                 />
                             </div>
                             <h1 className="text-align-center mt-3 font-weight-bold">Smart Army</h1>
@@ -62,7 +70,7 @@ export default function login(){
                                 />
                             </div>
                         </div>
-                    </div>
+                    {/* </div> */}
                 </form>
             </div>
 
