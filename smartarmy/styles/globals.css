@@ -4,18 +4,35 @@
 :root{
   --primary: #0C9AEC;
   --secondary: #84CDF8;
-  --third: #0F74AC;
+  --third: #d9effb;
 
 }
+html, body {
+  margin: 0;
+  height:auto;
+  width:100%;
+  padding:0;
+  font-family: 'Prompt', sans-serif;
+}
 
-body{
+section {
+  display: block;
+  background: #FFFFFF;
+  height:auto;
+  width:100%;
+  padding: 60px;
+  padding-left: 120px;
+  box-sizing:border-box;
+}
+
+/* body{
   font-family: 'IBM Plex Sans Thai';
-}
-.container{
+} */
+/* .container{
   margin: 0;
   padding: 0;
   width: 100%;
-}
+} */
 .nav-contrainer{
   background-color: var(--primary);
   margin: 0;
@@ -64,19 +81,6 @@ body{
   padding: 50px 0 50px;
 }
 
-
-/* responsive */
-@media screen and (max-width: 1550px) {
-  
-  .auto-hidden{ 
-    display: none; 
-  }
-     /* hide it elsewhere */
-  .leftBox {
-    width: 100%;
-  }
-}
-
 footer {
   position: fixed;
   bottom: 0;
@@ -92,32 +96,106 @@ footer {
 .footer-body{
   color: #FFFFFF;
 }
-
-.menuCard{
-  background-color: var(--secondary);
-  /* border: 2px solid #6B0000; */
+.card{
   border-radius: 20px;
-  width: 280px;
-  height: 150px;
-  margin: 10px;
 }
 
-.headerCard h4{
-  font-weight: bold;
+@media screen and (max-width: 820px) {
+  .card-text{
+    min-height: 140px;
+  }
+  .line{
+    min-height: 63px;
+  }
 }
 
-.menuCardColumn {
-  float: left;
-  padding: 10px;
-  height: 100px;
-}
-
-.icons i{
-  font-size:35px;
-  /* border: 5px solid green; */
-}
-
-.icons{
+i{
+  font-size:40px;
   text-align: center;
   width: 100%;
+}
+
+.btn-non{
+  cursor: pointer;
+  padding: 5px 20px;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.btn-non:hover{
+  background-color: var(--secondary);
+}
+
+.icon-btn{
+  cursor: pointer;
+  text-align: center;
+  padding: 5px 5px;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.icon-btn:hover{
+  background-color: lightgray;
+}
+
+a:not([href]):not([tabindex]):focus, a:not([href]):not([tabindex]):hover{
+  color: white;
+}
+
+.navbar-btn{
+  cursor: pointer;
+}
+
+.navbar-btn:hover{
+  color: white;
+}
+
+.line{
+  border-bottom: 2px solid #000000;
+  width: 100%;
+  height: 40px;
+}
+
+.icon-bar{
+  font-size:38px;
+  text-align: center;
+}
+
+.container-card{
+  max-width: 95%;
+  max-height: 95%;
+}
+
+.InovuaReactDataGrid{
+  font-size: 16px !important;
+} 
+
+.InovuaReactDataGrid__column-header{
+  background-color: var(--secondary);
+  font-size: 16px;
+}
+
+.InovuaReactDataGrid__column-header__content{
+  text-align: center;
+}
+
+.InovuaReactDataGrid__header{
+  border-radius: 10px;
+}
+
+.nextui-c-hhqfap-gqZKcP-disableBlur-false .nextui-c-egxOLa {
+  background: var(--primary);
+}
+
+.nextui-c-egxOLa {
+  max-width: none;
+}
+
+.nextui-c-kNgzEX {
+  background: var(--secondary);
+  color: #000000;
+}
+
+.ab{
+  justify-content: end;
 }
