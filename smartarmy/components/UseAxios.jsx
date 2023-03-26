@@ -1,6 +1,4 @@
 import axios from "axios";
-import { getCookie } from 'cookies-next';
-import { getSession } from "next-auth/react";
 export default async function useAxios({
   data: inputData,
   url: inputUrl,
