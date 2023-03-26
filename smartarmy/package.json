@@ -37,10 +37,13 @@
     "react-hook-form": "^7.39.5",
     "react-icons": "^4.7.1",
     "react-router-dom": "^6.8.0",
+    "react-select": "^5.7.2",
     "react-toastify": "^9.1.1",
+    "react-vertical-timeline-component": "^3.6.0",
     "styled-components": "^5.3.6",
     "uuid": "^9.0.0",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "vertical-timeline-component-react": "^4.4.1"
   },
   "devDependencies": {
     "@types/node": "18.11.18"
