@@ -1,17 +1,17 @@
 import React, { Fragment } from "react";
 import { Table, Row, Col, Tooltip, User, Text } from "@nextui-org/react";
 import { StyledBadge, IconButton } from "./CustomButton";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function TableCard(props) {
-  const { 
+  const {
     columns,
     data,
     editFunction,
     viewFunction,
     // setSelectData,
-  } = props; 
+  } = props;
 
   const renderCell = (user, columnKey) => {
     const cellValue = user[columnKey];
@@ -57,6 +57,7 @@ export default function TableCard(props) {
       css={{
         height: "auto",
         minWidth: "100%",
+        tableBodyEmptySpaceHeight: "none"
       }}
       selectionMode="single"
     >
@@ -80,6 +81,15 @@ export default function TableCard(props) {
           </Table.Row>
         )}
       </Table.Body>
+      {data.length > 10 && (
+        <Table.Pagination
+          shadow
+          noMargin
+          align="center"
+          rowsPerPage={10}
+          onPageChange={(page) => console.log({ page })}
+        />
+      )}
     </Table>
   );
 }

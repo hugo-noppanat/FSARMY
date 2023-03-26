@@ -1,47 +1,85 @@
-import { Dropdown,Text } from "@nextui-org/react";
-import { useState, useMemo} from "react";
+import { Dropdown, Text, Row, Col } from "@nextui-org/react";
+import { useState, useMemo, Fragment } from "react";
+import { Controller } from "react-hook-form";
+import Select from "react-select";
 
 export default function DropdownInput(prop) {
   const {
+    formName,
     menuItems,
     nameLabel,
-    selectedNname: selected,
-    setSelectedNname: setSelected,
-    disable = false,
-    size = "md",
+    rules = null,
+    reactHookForm,
+    isReadOnly = false,
+    // props for custom width and height select tag
   } = prop;
 
-  const selectedValue = useMemo(
-    () => Array.from(selected).join(", ").replaceAll("_", " "),
-    [selected]
-  );
+  const [selected, setSelected] = useState(null);
 
+  
   return (
-    <div>
-      <Text size={14} css={{marginBottom:"0.3rem", marginLeft:"0.5rem"}} color="primary">{nameLabel}</Text>
-      <Dropdown>
-      <Dropdown.Button flat disabled={disable} size={size}>
-        { selectedValue ? menuItems.find((item)=> selectedValue === item.key)?.value : "โปรดเลือก...  "}
-      </Dropdown.Button>
-      <Dropdown.Menu 
-        label={nameLabel}
-        aria-label="dropdown action" 
-        items={menuItems} 
-        selectionMode="single"
-        selectedKeys={selected}
-        onSelectionChange={setSelected}
-        isDisable={true}
-      >
-        {(item) => (
-          <Dropdown.Item
-            key={item.key}
-            // color={"default"}
-          >
-            {item.value}
-          </Dropdown.Item>
-        )}
-      </Dropdown.Menu>
-    </Dropdown>
-    </div>
+    <Fragment>
+      {rules !== null ? (
+        <Controller
+          name={formName}
+          control={reactHookForm.control}
+          register={reactHookForm.register}
+          setValue={reactHookForm.setValue}
+          render={({ field: { onChange, value } }) => (
+            <>
+              <Row>
+                <Text
+                  size={14}
+                  css={{ marginBottom: "0.3rem", marginLeft: "0.5rem" }}
+                  color="primary"
+                >
+                  {nameLabel}
+                </Text>
+              </Row>
+              <Row>
+                <Select
+                  options={menuItems}
+                  value={menuItems.find((c) => c.value === value)}
+                  onChange={(val) => onChange(val.value)}
+                  defaultValue={menuItems.find((c) => c.value === selected)}
+                />
+              </Row>
+            </>
+          )}
+          rules={rules}
+        />
+      ) : (
+        <Controller
+          name={formName}
+          control={reactHookForm.control}
+          register={reactHookForm.register}
+          setValue={reactHookForm.setValue}
+          render={({ field: { onChange, value } }) => (
+            <>
+              <div className="form-group col-md-16">
+                <label
+                  htmlFor={formName}
+                  className="form-label"
+                  style={{
+                    fontSize: "0.875rem",
+                    color: "var(--primary)",
+                    marginBottom: "0.25rem",
+                    marginLeft: "0.35rem",
+                  }}
+                >
+                  {nameLabel}
+                </label>
+                <Select
+                  options={menuItems}
+                  value={menuItems.find((c) => c.value === value)}
+                  onChange={(val) => onChange(val.value)}
+                  defaultValue={menuItems.find((c) => c.value === selected)}
+                />
+              </div>
+            </>
+          )}
+        />
+      )}
+    </Fragment>
   );
 }

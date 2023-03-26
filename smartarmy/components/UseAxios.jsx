@@ -1,23 +1,31 @@
 import axios from "axios";
-export default function useAxios({data: inputData, url:inputUrl, method: inputMethod, authen:inputAuthen}){
-    var config = {
-        method: inputMethod,
-        url: inputUrl,
-        headers: { 
-            // 'Authorization': `Bearer ${Cookies.get('token')}`:"", 
-            'Content-Type': 'application/json'
-        },
-        data : JSON.stringify(inputData)
-    };
+import { getCookie } from 'cookies-next';
+import { getSession } from "next-auth/react";
+export default async function useAxios({
+  data: inputData,
+  url: inputUrl,
+  method: inputMethod,
+  auth: inputAuthen,
+}) {
+  var config = {
+    method: inputMethod,
+    url: inputUrl,
+    headers: {
+      Authorization: `Bearer ${inputAuthen}`,
+      "Content-Type": "application/json",
+    },
+    data: JSON.stringify(inputData),
+  };
 
-    axios(config)
-
-    .then(function (response) {
-        return JSON.stringify(response.data)
+  const response = await axios(config)
+    .then((response) => {
+      return response;
     })
-    
-    .catch(function (error) {
-        return error
+
+    .catch((error) => {
+      // console.log(error);
+      return error;
     });
 
+    return response.data;
 }

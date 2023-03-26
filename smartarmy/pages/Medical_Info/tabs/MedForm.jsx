@@ -1,12 +1,11 @@
 import React, { Fragment, useState } from "react";
-// import { Grid } from "@nextui-org/react";
 import Card_Info from "../../../components/cardInfo";
-import { Grid, Input, Card, Text, Button } from "@nextui-org/react";
-import { useForm } from "react-hook-form";
+import { Grid, Input, Card, Text, Button, Row } from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
 import TableCard from "../../../components/DataTable";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Modal } from '@nextui-org/react';
+import { useRouter } from 'next/router'
 
 
 export default function MedForm(props) {
@@ -19,10 +18,13 @@ export default function MedForm(props) {
     setEditFormTemp,
     editFormPee,
     editFormTemp,
+    reactHookForm,
   } = props;
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit} = reactHookForm;
   const [ openModal, setOpenModal ] = useState(false);
+  const router = useRouter()
+  const { pid } = router.query
   return (
     <Fragment>
       <Grid.Container gap={1}>
@@ -41,15 +43,11 @@ export default function MedForm(props) {
                   </Card.Header>
                 </Card>
               </Grid>
-              <Grid container justify="center">
-                <Grid xs={10}>
-                  </Grid>
-                <Grid xs={2}>
-                <Button size={"sm"} icon={<AddCircleIcon />} flat onClick={() =>{setOpenModal(true)}}>
+                <Row justify="end" align="center" className="mt-2 mx-4">
+                <Button size={"sm"} icon={<AddCircleIcon />} bordered onClick={() =>{setOpenModal(true)}}>
                   เพิ่มข้อมูล
                 </Button>
-                </Grid>
-              </Grid>
+                </Row>
               <Grid css={{ minWidth: "-webkit-fill-available" }}>
                 <TableCard columns={columns} data={data} />
               </Grid>
@@ -101,10 +99,20 @@ export default function MedForm(props) {
             </Grid>
             <Grid xs={6}>
               <DropdownInput
+                formName="time"
                 nameLabel="ห้วงเวลา"
-                menuItems={["เช้า", "บ่าย", "เย็น"]}
-                selectedNname={[]}
-                setSelectedNname={[]}
+                menuItems={[
+                  {
+                    label: "เช้า", value: "morning"
+                  },
+                  {
+                    label: "กลางวัน", value: "noon"
+                  },
+                  {
+                    label: "เย็น", value: "evening"
+                  },
+                ]}
+                reactHookForm={reactHookForm}
               />
             </Grid>
             <Grid xs={6}>
@@ -121,10 +129,15 @@ export default function MedForm(props) {
             </Grid>
             <Grid xs={6}>
               <DropdownInput
+                formName="pee"
                 nameLabel="ระดับปัสสาวะ"
-                menuItems={["ปกติ", "เบา", "ปานกลาง", "หนัก"]}
-                selectedNname={[]}
-                setSelectedNname={[]}
+                menuItems={[
+                  {label: "ปกติ", value: "normal"},
+                  {label: "เบา", value: "light"},
+                  {label: "ปานกลาง", value: "medium"},
+                  {label: "หนัก", value: "heavy"},
+                ]}
+                reactHookForm={reactHookForm}
               />
             </Grid>
           </Grid.Container>
@@ -142,3 +155,4 @@ export default function MedForm(props) {
     </Fragment>
   );
 }
+

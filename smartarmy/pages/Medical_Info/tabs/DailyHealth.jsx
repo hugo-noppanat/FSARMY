@@ -9,8 +9,7 @@ export default function DailyHealth(props){
     setViewData,
     editData,
     viewData,
-    // editFunction,
-    // viewFunction,
+    reactHookForm
   } = props
   
   const columns = [
@@ -61,6 +60,7 @@ export default function DailyHealth(props){
         (
           <DhForm 
             userProfile={editData ? editData : viewData}
+            reactHookForm={reactHookForm}
           /> 
         ): (
           <TableCard

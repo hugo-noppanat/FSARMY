@@ -6,26 +6,33 @@ import { getValueFromDropdown } from "./getValueFromDropdown";
 export default function EducationForm(prop){
   const {
     reactHookForm,
+    province,
+    district,
+    subDistrict,
+    zipcode,
+    yn,
+    education
   } = prop;
 
   const {register, handleSubmit} = reactHookForm;
 
   return(
     <Grid.Container gap={2}>
-      <Grid xs={12}>
+      <Grid>
         <DropdownInput
-          nameLabel={"ระดับการศึกษาสูงสุด"}
-          menuItems={["ประถมศึกษา", "มัธยมศึกษา", "ปวช.", "ปวส.", "ปริญญาตรี", "ปริญญาโท", "ปริญญาเอก"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          formName="educationLevel"
+          nameLabel={"ระดับการศึกษา"}
+          menuItems={education}
+          reactHookForm={reactHookForm}
           />
       </Grid>
       <Grid xs={12}>
-        <DropdownInput
-          nameLabel={"จบการศึกษาสูงสุดจากโรงเรียน/สถาบัน"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]} 
+        <Input
+          bordered
+          label="ชื่อสถาบันที่จบการศึกษาสูงสุด"
+          placeholder="ชื่อสถาบัน"
+          color="primary"
+          {...register("S_name")}
         />
       </Grid>
       {/* ที่อยู่สถาบัน */}
@@ -67,26 +74,26 @@ export default function EducationForm(prop){
         </Grid>
         <Grid>
         <DropdownInput
-            nameLabel={"ตำบล"}
-            menuItems={[]}
-            selectedNname={[]}
-            setSelectedNname={[]}
+            formName="S_province"
+            nameLabel={"จังหวัด"}
+            menuItems={province}
+            reactHookForm={reactHookForm}
           />
         </Grid>
         <Grid>
           <DropdownInput
+            formName="S_district"
             nameLabel={"อำเภอ"}
-            menuItems={[]}
-            selectedNname={[]}
-            setSelectedNname={[]}
+            menuItems={district}
+            reactHookForm={reactHookForm}
           />
         </Grid>
         <Grid>
         <DropdownInput
-            nameLabel={"จังหวัด"}
-            menuItems={[]}
-            selectedNname={[]}
-            setSelectedNname={[]}
+            formName="S_subDistrict"
+            nameLabel={"ตำบล"}
+            menuItems={subDistrict}
+            reactHookForm={reactHookForm}
           />
         </Grid>
         <Grid>
@@ -100,18 +107,18 @@ export default function EducationForm(prop){
         </Grid>
         <Grid xs={12}>
           <DropdownInput
-            nameLabel={"ต้องการศึกษาโรงเรียนนายสิบทหารบกหรือไม่"}
-            menuItems={[]}
-            selectedNname={[]}
-            setSelectedNname={[]}
+            formName="educationGenaral"
+            nameLabel={"ต้องการศึกษาการศึกษานอกระบบหรือไม่ (กศน.)"}
+            menuItems={yn}
+            reactHookForm={reactHookForm}
           />
         </Grid>
         <Grid xs={12}>
           <DropdownInput
+            formName="educationArmy"
             nameLabel={"ต้องการศึกษาโรงเรียนนายสิบทหารบกหรือไม่"}
-            menuItems={[]}
-            selectedNname={[]}
-            setSelectedNname={[]}
+            menuItems={yn}
+            reactHookForm={reactHookForm}
           />
         </Grid>
 

@@ -7,17 +7,20 @@ import { signOut,useSession} from 'next-auth/react'
 import { Navbar, Button, Link, Text, Card, Radio } from "@nextui-org/react";
 import { Layout } from "./Layout.js";
 // import { AcmeLogo } from "./AcmeLogo.js";
+// import { useRouter } from "next/router";
+
 
 
 export default function NavbarCustom() {
     // const { logout } = useAuth();
     const {data:session} = useSession()
+    const router = useRouter()
 
     const logoutByUser = async() =>{
         await signOut();
     }
 
-    if(!session){
+    if(!session && router.pathname === '/login'){
         return(<div></div>)
     }
     return(
@@ -44,9 +47,11 @@ export default function NavbarCustom() {
           </Text>
         </Navbar.Brand>
         <Navbar.Content>
+          {session && (
           <Navbar.Link color="inherit" onClick={logoutByUser}>
             ออกจากระบบ
           </Navbar.Link>
+          )}
         </Navbar.Content>
       </Navbar>
       </Layout>

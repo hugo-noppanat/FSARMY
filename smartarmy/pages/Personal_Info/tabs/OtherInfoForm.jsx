@@ -6,6 +6,10 @@ import TextField from '@mui/material/TextField';
 export default function OtherInfoForm(prop){
   const { 
     reactHookForm,
+    hdh,
+    yep,
+    reasonEntry,
+    ability,
   } = prop;
 
   const {register, handleSubmit} = reactHookForm;
@@ -45,43 +49,39 @@ export default function OtherInfoForm(prop){
       <Grid xs={12} css={{padding:"0" }}>
         <Text size={14} css={{marginBottom:"0.3rem", marginLeft:"2rem", padding:"1px"}} color="primary">ความสามารถด้านภาษา</Text>
       </Grid>
-      <Grid xs={12} css={{marginLeft:"4rem"}}>
+      <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
+          formName={"englishLanguageAbility"}
           nameLabel={"ภาษาอังกฤษ"}
-          menuItems={["พูดได้ดี", "พูดได้ปานกลาง", "พูดได้น้อย", "ไม่พูด"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          size="sm"
+          menuItems={ability}
+          reactHookForm={reactHookForm}
         />
       </Grid>
-      <Grid xs={12} css={{marginLeft:"4rem"}}>
+      <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
-          nameLabel={"ภาษาเมียนมาร์"}
-          menuItems={["พูดได้ดี", "พูดได้ปานกลาง", "พูดได้น้อย", "ไม่พูด"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          size="sm"
+          formName={"chinaLanguageAbility"}
+          nameLabel={"ภาษาจีน"}
+          menuItems={ability}
+          reactHookForm={reactHookForm}
         />
       </Grid>
-      <Grid xs={12} css={{marginLeft:"4rem"}}>
+      <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
+          formName={"karanLanguageAbility"}
           nameLabel={"ภาษากระเหรี่ยง"}
-          menuItems={["พูดได้ดี", "พูดได้ปานกลาง", "พูดได้น้อย", "ไม่พูด"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          size="sm"
+          menuItems={ability}
+          reactHookForm={reactHookForm}
         />
       </Grid>
-      <Grid xs={12} css={{marginLeft:"4rem"}}>
+      <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
+          formName={"MyanmarLanguageAbility"}
           nameLabel={"ภาษาพม่า"}
-          menuItems={["พูดได้ดี", "พูดได้ปานกลาง", "พูดได้น้อย", "ไม่พูด"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          size="sm"
+          menuItems={ability}
+          reactHookForm={reactHookForm}
         />
       </Grid>
-      <Grid xs={12} css={{marginLeft:"4rem"}}>
+      <Grid css={{marginLeft:"4rem"}}>
         <Input
           size="md"
           bordered
@@ -91,65 +91,68 @@ export default function OtherInfoForm(prop){
           {...register("other_language")}
         />
       </Grid>
+      <Grid xs={12}></Grid>
       <Grid>
         <DropdownInput
+          formName={"ComputerAbility"}
           nameLabel={"ความสามารถด้านอาชีพ"}
-          menuItems={["ไม่มี", "มี"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={yep}
+          reactHookForm={reactHookForm}
           />
       </Grid>
       <Grid>
         <DropdownInput
+          formName={"SportAbility"}
           nameLabel={"ความสามารถด้านกีฬา"}
-          menuItems={["ไม่มี", "มี"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={yep}
+          reactHookForm={reactHookForm}
           />
       </Grid>
       <Grid>
         <DropdownInput
+          formName={"MusicAbility"}
           nameLabel={"ความสามารถด้านดนตรี/ศิลปะ"}
-          menuItems={["ไม่มี", "มี"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={yep}
+          reactHookForm={reactHookForm}
           />
       </Grid>
       <Grid>
         <DropdownInput
+          formName={"DriverAbility"}
           nameLabel={"ความสามารถในการขับขี่"}
-          menuItems={["ไม่มี", "มี"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={yep}
+          reactHookForm={reactHookForm}
           />
       </Grid>
       <Grid>
         <DropdownInput
+          formName={"DriverLicense"}
           nameLabel={"ท่านมีใบอนุญาตขับขี่รถยนต์หรือไม่"}
-          menuItems={["ไม่มี", "มี"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={yep}
+          reactHookForm={reactHookForm}
           />
       </Grid>
       <Grid>
         <DropdownInput
+          formName={"reasonForEnlistment"}
           nameLabel={"เหตุเข้ารับราชการ"}
-          menuItems={["เลือกเหตุเข้ารับราชการ", "เหตุเข้ารับราชการ"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={reasonEntry}
+          reactHookForm={reactHookForm}
           />
       </Grid>
-      <Grid>
+      {/* <Grid>
         <DropdownInput
           nameLabel={"การรับราชการ"}
-          menuItems={["เลือกการรับราชการ", "การรับราชการ"]}
+          menuItems={[
+            {label: }
+          ]}
           selectedNname={[]}
           setSelectedNname={[]}
           />
-      </Grid>
-      <Grid xs={12}>
+      </Grid> */}
+      {/* <Grid xs={12}>
         <Text>แผนที่โดยสังเขป</Text>
-      </Grid>
+      </Grid> */}
       <Grid xs={12}>
       <Card css={{ h: "$15", $$cardColor: '$colors$secondary' }}>
         <Card.Header css={{padding:"5px 10px"}}>
@@ -159,10 +162,10 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
+          formName={"เคยถูกจับกุมหรือไม่"}
           nameLabel={"เคยถูกจับกุมหรือไม่"}
-          menuItems={["ไม่เคย", "เคย"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={hdh}
+          reactHookForm={reactHookForm}
           />
       </Grid>
       <Grid>
@@ -175,12 +178,13 @@ export default function OtherInfoForm(prop){
         />
       </Grid>
       <Grid>
-        <DropdownInput
-          nameLabel={"ผลการตัดสินคดี"}
-          menuItems={["ไม่เคย", "เคย"]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          />
+        <Input
+          bordered
+          label={"ผลการตัดสิน"}
+          placeholder="ผลการตัดสิน"
+          color="primary"
+          {...register("result")}
+        />
       </Grid>
       <Grid>
         <Input
@@ -192,6 +196,5 @@ export default function OtherInfoForm(prop){
         />
       </Grid>
     </Grid.Container>
-
   )
 }

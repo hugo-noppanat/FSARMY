@@ -1,28 +1,45 @@
-import {Grid, Input, Button, Text, Card, Checkbox} from "@nextui-org/react";
+import {Grid, Input, Button, Text, Card, Checkbox,Row} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
-import { useState, useMemo} from "react";
+import { useState, useMemo, Fragment, useEffect} from "react";
 import { getValueFromDropdown } from "./getValueFromDropdown";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { useFieldArray } from "react-hook-form";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 export default function FamilyForm(prop) {
   const {
     reactHookForm,
     // thaiAddress,
     // changeAutoComplete
+    province,
+    district,
+    subDistrict,
+    zipcode,
+    statusFamily,
+    status,
+    statusLife,
   } = prop;
 
-  const {register, handleSubmit} = reactHookForm;
-  const [selectedNname, setSelectedNname] = useState([]);
+  const {register, control} = reactHookForm;
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "familyForm"
+  });
+  
 
+  useEffect(() => {
+    append({ name: "familyForm" });
+  }, []);
   return(
     <Grid.Container gap={2}>
-      <Grid xs={12}>
+      <Grid>
         <DropdownInput
+          formName="family"
           nameLabel={"ปัจจุบัน บิดา มารดา (อยู่ด้วยกัน, แยกกันอยู่, หรือ หย่าร้าง)"}
-          menuItems={["อยู่ด้วยกัน", "แยกกันอยู่", "หย่าร้าง"]}
-          selectedNname={["อยู่ด้วยกัน"]}
-          setSelectedNname={["อยู่ด้วยกัน"]}
+          menuItems={statusFamily}
+          reactHookForm={reactHookForm}
         />
       </Grid>
       <Grid xs={12}>
@@ -75,10 +92,10 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
       <DropdownInput
+          formName="F_status"
           nameLabel={"ปัจจุบันบิดา"}
-          menuItems={[]}
-          selectedNname={selectedNname}
-          setSelectedNname={setSelectedNname}
+          menuItems={statusLife}
+          reactHookForm={reactHookForm}
         />
       </Grid>
       {/* <Grid xs={12}>
@@ -130,28 +147,28 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          nameLabel={"ตำบล"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          nameLabel={"อำเภอ"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
+          formName="F_province"
           nameLabel={"จังหวัด"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={province}
+          reactHookForm={reactHookForm}
+          // disable={true}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="F_district"
+          nameLabel={"อำเภอ"}
+          menuItems={district}
+          reactHookForm={reactHookForm}
+          // disable={true}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="F_subDistrict"
+          nameLabel={"ตำบล"}
+          menuItems={subDistrict}
+          reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>
@@ -214,10 +231,10 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
+          formName="M_status"
           nameLabel={"ปัจจุบันมารดา"}
-          menuItems={[]}
-          selectedNname={selectedNname}
-          setSelectedNname={setSelectedNname}
+          menuItems={statusLife}
+          reactHookForm={reactHookForm}
         />
       </Grid>
       {/* <Grid xs={12}>
@@ -289,28 +306,28 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          nameLabel={"ตำบล"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          nameLabel={"อำเภอ"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
+          formName="M_province"
           nameLabel={"จังหวัด"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={province}
+          reactHookForm={reactHookForm}
+          // disable={true}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="M_district"
+          nameLabel={"อำเภอ"}
+          menuItems={district}
+          reactHookForm={reactHookForm}
+          // disable={true}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="M_subDistrict"
+          nameLabel={"ตำบล"}
+          menuItems={subDistrict}
+          reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>
@@ -332,14 +349,14 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
+          formName="M_status"
           nameLabel={"สถานภาพ"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={status}
+          reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>
-      <Grid xs={12}>
+      <Grid xs={12} justify="end">
         <Checkbox size="xs">สถานภาพโสด และมีบุตร หรือ สถานภาพหย่าร้าง และมีบุตร</Checkbox>
       </Grid>
       {/* ภรรยา */}
@@ -449,29 +466,26 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          nameLabel={"ตำบล"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          nameLabel={"อำเภอ"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
+          formName="W_province"
           nameLabel={"จังหวัด"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
+          menuItems={province}
+          reactHookForm={reactHookForm}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="W_district"
+          nameLabel={"อำเภอ"}
+          menuItems={district}
+          reactHookForm={reactHookForm}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="W_subDistrict"
+          nameLabel={"ตำบล"}
+          menuItems={subDistrict}
+          reactHookForm={reactHookForm}
         />
       </Grid>
       <Grid>
@@ -523,30 +537,48 @@ export default function FamilyForm(prop) {
           {...register("W_daughter")}
         />
       </Grid>
-
+      <Row justify="end">
+        <Grid>
+          <Button color="primary" auto ghost onClick={()=>{append({
+            C_firstname: "",
+            C_lastname: "",
+          })}}>
+            <AddCircleIcon className="mx-1"></AddCircleIcon>
+            เพิ่ม
+            </Button>
+        </Grid>
+      </Row>
       {/* บุตร */}
       <Grid xs={12}></Grid>
-      <Grid>
-        <Input
-          bordered
-          label="ชื่อบุตร"
-          Placeholder="ชื่อบุตร"
-          color="primary"
-          {...register("C_firstname")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="นามสกุลบุตร"
-          Placeholder="นามสกุลบุตร"
-          color="primary"
-          {...register("C_lastname")}
-        />
-      </Grid>
-      <Grid>
-        <Button>เพิ่ม</Button>
-      </Grid>
+      {
+        fields.map((item, index) => (
+          <Fragment>
+            <Grid>
+              <Input
+                key={item}
+                bordered
+                label="ชื่อบุตร"
+                Placeholder="ชื่อบุตร"
+                color="primary"
+                {...register(`familyForm.C_firstname.${index}`)}
+              />
+            </Grid>
+            <Grid>
+              <Input
+                key={item}
+                bordered
+                label="นามสกุลบุตร"
+                Placeholder="นามสกุลบุตร"
+                color="primary"
+                {...register(`familyForm.C_lastname.${index}`)}
+              />
+            </Grid>
+            <Grid>
+              <RemoveCircleIcon className="mx-1" style={{marginTop:"2.3rem", cursor: "pointer"}} onClick={() => index > 0 && remove(index)}></RemoveCircleIcon>
+            </Grid>
+          </Fragment>
+        ))
+      }
       <Grid xs={12}>
         <Card css={{ h: "$15", $$cardColor: '$colors$secondary' }}>
           <Card.Header css={{padding:"5px 10px"}}>
@@ -633,28 +665,28 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          nameLabel={"ตำบล"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          nameLabel={"อำเภอ"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
+          formName="R_province"
           nameLabel={"จังหวัด"}
-          menuItems={[]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          menuItems={province}
+          reactHookForm={reactHookForm}
+          // disable={true}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="R_district"
+          nameLabel={"อำเภอ"}
+          menuItems={district}
+          reactHookForm={reactHookForm}
+          // disable={true}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName="R_subDistrict"
+          nameLabel={"ตำบล"}
+          menuItems={subDistrict}
+          reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>

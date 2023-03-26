@@ -1,13 +1,11 @@
 import React, { Fragment } from "react";
 import { Grid, Input, Card, Text } from "@nextui-org/react";
 import Card_Info from "../../../components/cardInfo";
-import { useForm } from "react-hook-form";
 import DropdownInput from "../../../components/DropdownInput";
 
 export default function DhForm(props) {
-  const { userProfile } = props;
-
-  const { register, handleSubmit } = useForm();
+  const { userProfile, reactHookForm} = props;
+  const { register } = reactHookForm;
 
   return (
     <Fragment>
@@ -64,11 +62,12 @@ export default function DhForm(props) {
                 />
               </Grid>
               <Grid>
-                <DropdownInput
-                  nameLabel={"โรคประจำตัว"}
-                  menuItems={[]}
-                  selectedNname={[]}
-                  setSelectedNname={[]}
+                <Input
+                  bordered
+                  label="โรคประจำตัว"
+                  placeholder="โรคประจำตัว"
+                  color="primary"
+                  {...register("disease")}
                 />
               </Grid>
               <Grid>
@@ -91,10 +90,10 @@ export default function DhForm(props) {
               </Grid>
               <Grid>
                 <DropdownInput
+                  formName={"drugUsed"}
                   nameLabel={"ใช้ยาประจำหรือไม่"}
                   menuItems={[]}
-                  selectedNname={[]}
-                  setSelectedNname={[]}
+                  reactHookForm={reactHookForm}
                 />
               </Grid>
               <Grid>
@@ -173,26 +172,26 @@ export default function DhForm(props) {
               </Grid>
               <Grid>
                 <DropdownInput
+                  formName={"drugVUsed"}
                   nameLabel={"ท่านเคยใช้สารเสพติดหรือไม่"}
                   menuItems={[]}
-                  selectedNname={[]}
-                  setSelectedNname={[]}
+                  reactHookForm={reactHookForm}
                 />
               </Grid>
               <Grid>
                 <DropdownInput
+                  formName={"drugVType"}
                   nameLabel={"ประเภทของสารเสพติดที่ใช้"}
                   menuItems={[]}
-                  selectedNname={[]}
-                  setSelectedNname={[]}
+                  reactHookForm={reactHookForm}
                 />
               </Grid>
               <Grid>
                 <DropdownInput
+                  formName={"drugVUsedTime"}
                   nameLabel={"เคยใช้มาแล้วเป็นเวลาเท่าใด"}
                   menuItems={[]}
-                  selectedNname={[]}
-                  setSelectedNname={[]}
+                  reactHookForm={reactHookForm}
                 />
               </Grid>
               <Grid>
@@ -206,12 +205,12 @@ export default function DhForm(props) {
               </Grid>
               <Grid>
                 <DropdownInput
+                  formName={"drugVDisuse"}
                   nameLabel={
                     "หากเลิกใช้สารเสพติดแล้ว เคยเลิกใช้มาเป็นเวลาเท่าใด"
                   }
                   menuItems={[]}
-                  selectedNname={[]}
-                  setSelectedNname={[]}
+                  reactHookForm={reactHookForm}
                 />
               </Grid>
               <Grid>

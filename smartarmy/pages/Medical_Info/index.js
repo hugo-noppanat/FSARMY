@@ -8,12 +8,14 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import DailyHealth from "./tabs/DailyHealth";
 import MedicalInfo from "./tabs/MedicalInfo";
+import { useForm } from "react-hook-form";
 
 export default function Medical_Info() {
   const [selectData, setSelectData] = useState([]);
   const [editData, setEditData] = useState(false);
   const [viewData, setViewData] = useState(false);
   const [pageName, setPageName] = useState("ข้อมูลทางการแพทย์");
+  const reactHookForm = useForm();
 
   //change page name
   useEffect(() => {
@@ -123,7 +125,7 @@ export default function Medical_Info() {
           </Grid>
         </Grid.Container>
       )}
-      {selectData === "DailyHealth" && 
+      {selectData === "MedicalInfo" && 
         <DailyHealth
           selectData={selectData}
           setSelectData={setSelectData}
@@ -131,11 +133,12 @@ export default function Medical_Info() {
           setViewData={setViewData}
           editData={editData}
           viewData={viewData}
+          reactHookForm={reactHookForm}
           // editFunction={editFunction}
           // viewFunction={viewFunction}
         />
       }
-      {selectData === "MedicalInfo" && (
+      {selectData === "DailyHealth" && (
         <MedicalInfo
         selectData={selectData}
         setSelectData={setSelectData}
@@ -143,6 +146,7 @@ export default function Medical_Info() {
         setViewData={setViewData}
         editData={editData}
         viewData={viewData}
+        reactHookForm={reactHookForm}
         />
       )}
     </Fragment>

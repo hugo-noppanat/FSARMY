@@ -3,7 +3,7 @@ import React,{ Fragment, useState } from "react";
 import MedForm from "./MedForm";
 
 export default function MedicalInfo(props) {
-  const { selectData, setSelectData, setEditData, setViewData, editData, viewData } = props;
+  const { selectData, setSelectData, setEditData, setViewData, editData, viewData, reactHookForm} = props;
 
   const [editFormTemp, setEditFormTemp] = useState([]);
   const [editFormPee, setEditFormPee] = useState([]);
@@ -84,6 +84,7 @@ export default function MedicalInfo(props) {
           setEditFromTemp={setEditFormTemp}
           editFormPee={editFormPee}
           editFormTemp={editFormTemp}
+          reactHookForm={reactHookForm}
         />
       
       ) : (

@@ -11,6 +11,8 @@ export default function Home() {
     required: true,
   })
 
+  // window.localStorage.setItem("user", session.user)
+
   if(!session){
     return(
       <></>

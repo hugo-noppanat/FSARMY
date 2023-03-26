@@ -1,6 +1,8 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 
+// let userAccount = null;
+
 export const authOptions = {
   // Configure one or more authentication providers
   providers: [
@@ -16,16 +18,22 @@ export const authOptions = {
           body: JSON.stringify(credentials),
           headers: { "Content-Type": "application/json" }
         })
-        const user = await res.json()
-        // console.log(res.ok);
-        // If no error and we have user data, return it
-        if (res.ok) {
+        const data = await res.json()
+        const user = {
+          _id: data.accesstoken,
+          name: data.user,
+          email: data.accesstoken,
+
+        }
+      
+        if (res.ok && user) {
+          // console.log("user",user);
           return user
         }
-        // Return null if user data could not be retrieved
+        
         return null
       }
-    })
+    }),
     // ...add more providers here
   ],
   pages: {
@@ -34,19 +42,24 @@ export const authOptions = {
     signOut: '/login',
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials}) {
-      // setUser(user)
-      console.log("user", user, credentials);
+    async signIn({ user, account, profile, email, credentials}) {;
+      // console.log("signIn",user,credentials);
       return credentials
     },
-    // async session({ session, token }) {
-    //   console.log("session", session);
-    // },
+    session: async ({ session, token }) => {
+      return session;
+    },
+    jwt: async ({ token, user }) => {
+      // console.log("jwt",token,user);
+      user && (token.user = user);
+      return token;
+    },
   },
+  // refetchInterval: 60,
   session: {
     strategy: "jwt",
-    // maxAge 2 minutes 
-    maxAge: 1 * 24 * 60 * 60,
+    // maxAge 3h
+    maxAge: 60 * 60 * 3,
   },
 }
 export default NextAuth(authOptions)

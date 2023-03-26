@@ -1,4 +1,4 @@
-import { Card, Grid } from "@nextui-org/react";
+import { Card, Grid, Row, Button} from "@nextui-org/react";
 import { Fragment,useState } from "react";
 import Card_Info from "../../components/cardInfo";
 import Tabs from '@mui/material/Tabs';
@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import FamilyForm from "./tabs/FamilyForm";
 import EducationForm from "./tabs/EducationForm";
 import OtherInfoForm from "./tabs/OtherInfoForm";
+import UniformForm from "./tabs/UniformForm";
 const ThaiAddress = require(`../../image/ThaiAddress.json`);
 
 function TabPanel(props) {
@@ -43,9 +44,29 @@ export default function PersonalDetail(prop) {
     editMode,
     userProfile,
     reactHookForm,
+    subDistrict,
+    district,
+    province,
+    zipcode,
+    status,
+    statusLife,
+    // dyn,
+    drugType,
+    timimg,
+    yn,
+    hnh,
+    ndn,
+    size,
+    dn,
+    statusLiving,
+    education,
+    yep,
+    reasonEntry,
+    ability,
   } = prop;
 
   const [value, setValue] = useState(1);
+  const {handleSubmit} = reactHookForm;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -63,6 +84,10 @@ export default function PersonalDetail(prop) {
     })
   }
 
+  const submitForm = (data) =>{
+    console.log("submit", data);
+  }
+
   return(
     <Fragment>
       <Grid.Container gap={1}>
@@ -75,13 +100,18 @@ export default function PersonalDetail(prop) {
               <Tab label="ข้อมูลส่วนตัว" value={1}/>
               <Tab label="สถานภาพครอบครัว" value={2}/>
               <Tab label="การศึกษา" value={3}/>
-              <Tab label="ข้อมูลเพิ่มเติม" value={4}/>
+              <Tab label="เครื่องแต่งกาย" value={4}/>
+              <Tab label="ข้อมูลเพิ่มเติม" value={5}/>
             </Tabs>
             <TabPanel value={value} index={1}>
               <Personalized 
                 reactHookForm={reactHookForm}
                 thaiAddress={thaiAddress}
                 changeAutoComplete={changeAutoComplete}
+                province={province}
+                district={district}
+                subDistrict={subDistrict}
+                zipcode={zipcode}
               />
             </TabPanel>
             <TabPanel value={value} index={2}>
@@ -89,20 +119,50 @@ export default function PersonalDetail(prop) {
                 reactHookForm={reactHookForm}
                 thaiAddress={thaiAddress}
                 changeAutoComplete={changeAutoComplete}
+                province={province}
+                district={district}
+                subDistrict={subDistrict}
+                zipcode={zipcode}
+                statusFamily={statusLiving}
+                status={status}
+                statusLife={statusLife}
               />
             </TabPanel>
             <TabPanel value={value} index={3}>
               <EducationForm
                 reactHookForm={reactHookForm}
+                province={province}
+                district={district}
+                subDistrict={subDistrict}
+                zipcode={zipcode}
+                yn={yn}
+                education={education}
               />
             </TabPanel>
             <TabPanel value={value} index={4}>
+              <UniformForm
+                reactHookForm={reactHookForm}
+                size={size}
+                />
+            </TabPanel>
+            <TabPanel value={value} index={5}>
               <OtherInfoForm
                 reactHookForm={reactHookForm}
+                province={province}
+                district={district}
+                subDistrict={subDistrict}
+                zipcode={zipcode}
+                hdh={hnh}
+                yep={yep}
+                ability={ability}
+                reasonEntry={reasonEntry}
               />
             </TabPanel>
-            
+            <Row justify="end"> 
+            <Button css={{marginBottom:"15px", marginRight:"15px"}} onPress={handleSubmit(submitForm)}> บันทึก </Button>
+            </Row>
           </Card>
+         
         </Grid>
       </Grid.Container>
     </Fragment>

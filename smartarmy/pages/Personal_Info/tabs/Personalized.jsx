@@ -1,9 +1,10 @@
 import {Grid, Input, Button, Text, Card, Checkbox} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
-import { useState, useMemo, useEffect} from "react";
+import { useState, useMemo, useEffect, euseRducer} from "react";
 import { getValueFromDropdown } from "./getValueFromDropdown";
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
+import { Controller } from "react-hook-form";
 
 
 export default function Personalized(prop) {
@@ -11,39 +12,31 @@ export default function Personalized(prop) {
     reactHookForm,
     thaiAddress,
     changeAutoComplete,
+    subDistrict,
+    district,
+    province,
+    zipcode,
   } = prop;
 
-  const [selectedNname, setSelectedNname] = useState([]);
-  const [selectedBloodType, setSelectedBloodType] = useState([]);
-  const [selectedProvince, setSelectedProvince] = useState([]);
-  const [selectedDistrict, setSelectedDistrict] = useState([]);
-  const [selectedSubDistrict, setSelectedSubDistrict] = useState([]);
-  const [selectedProvince2, setSelectedProvince2] = useState([]);
-  const [selectedDistrict2, setSelectedDistrict2] = useState([]);
-  const [selectedSubDistrict2, setSelectedSubDistrict2] = useState([]);
   const [checkbox, setCheckbox] = useState(false);
 
-  const {register, handleSubmit, reset, getValues} = reactHookForm;
+  const {register, handleSubmit, reset, getValues, watch} = reactHookForm;
 
-  const submitForm = (data) => {
-    const Nname = getValueFromDropdown(selectedNname);
-    console.log(data , Nname );
-  }
 
   const gdtype = [
-    {key: "1", value: "นาย"},
-    {key: "2", value: "นาง"},
-    {key: "3", value: "นางสาว"},
-    {key: "4", value: "ด.ช."},
-    {key: "5", value: "ด.ญ."},
-    {key: "6", value: "พลทหาร"}
+    {label: "นาย", value: "นาย"},
+    {label: "นาง", value: "นาง"},
+    {label: "นางสาว", value: "นางสาว"},
+    {label: "เด็กชาย", value: "เด็กชาย"},
+    {label: "เด็กหญิง", value: "เด็กหญิง"},
+    {label: "พลทหาร", value: "พลทหาร"},
   ]
 
   const bloodType = [
-    {key: "1", value: "A"},
-    {key: "2", value: "B"},
-    {key: "3", value: "O"},
-    {key: "4", value: "AB"},
+    {label: "A", value: "A"},
+    {label: "B", value: "B"},
+    {label: "O", value: "O"},
+    {label: "AB", value: "AB"},
   ]
 
   useEffect(() => {
@@ -53,6 +46,9 @@ export default function Personalized(prop) {
         P_moo: getValues("O_moo"),
         P_soi: getValues("O_soi"),
         P_road: getValues("O_road"),
+        P_province: getValues("O_province"),
+        P_district: getValues("O_district"),
+        P_subDistrict: getValues("O_subDistrict"),
         P_zipcode: getValues("O_zipcode"),
       })
     }else{
@@ -61,10 +57,26 @@ export default function Personalized(prop) {
         P_moo: "",
         P_soi: "",
         P_road: "",
+        P_province: "",
+        P_district: "",
+        P_subDistrict: "",
         P_zipcode: "",
       })
     }
-  },[checkbox])
+  },[checkbox]);
+
+  //set zipcode from selected subDistrict
+  useEffect(() => {
+    if(watch("O_subDistrict")){
+      const code = zipcode.map((item) => {
+        if(item.value === watch("O_subDistrict")){
+          reset({
+            O_zipcode: item.value
+          })
+        }
+      })
+    }
+  },[watch("P_subDistrict")])
 
   const onSelectedCheckBox = (e) => {
     if (checkbox) {
@@ -73,16 +85,22 @@ export default function Personalized(prop) {
       setCheckbox(true);
     }
   }
+
+  const clickSubmit = (data) => {
+    console.log(data);
+  }
+
   return(
     <Grid.Container gap={2}>
       <Grid>
-        <DropdownInput 
-          nameLabel={"คำนำหน้าชื่อ"} 
+        <DropdownInput
+          formName={"title"}
+          nameLabel={"คำนำหน้า"}
           menuItems={gdtype}
-          selectedNname={selectedNname}
-          setSelectedNname={setSelectedNname}
-          disable={true}
-          />
+          reactHookForm={reactHookForm}
+          // isReadOnly={true}
+          rules={{ required: true }}
+        />
       </Grid>
       <Grid>
         <Input
@@ -91,7 +109,6 @@ export default function Personalized(prop) {
           placeholder="ชื่อ"
           color="primary"
           {...register("firstname")}
-          initialValue="yyyy"
           readOnly={true}
         />
       </Grid>
@@ -151,11 +168,11 @@ export default function Personalized(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          nameLabel={"กรุ๊ปเลือด"} 
+          formName={"blood"}
+          nameLabel={"กรุ๊ปเลือด"}
           menuItems={bloodType}
-          selectedNname={selectedBloodType}
-          setSelectedNname={setSelectedBloodType}
-          // disable={true}
+          reactHookForm={reactHookForm}
+          isReadOnly={true}
         />
       </Grid>
       <Grid>
@@ -232,40 +249,37 @@ export default function Personalized(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          nameLabel={"ตำบล"}
-          menuItems={gdtype}
-          selectedNname={selectedSubDistrict}
-          setSelectedNname={setSelectedSubDistrict}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          nameLabel={"อำเภอ"}
-          menuItems={gdtype}
-          selectedNname={selectedDistrict}
-          setSelectedNname={setSelectedDistrict}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
+          formName={"O_province"}
           nameLabel={"จังหวัด"}
-          menuItems={gdtype}
-          selectedNname={selectedProvince}
-          setSelectedNname={setSelectedProvince}
-          // disable={true}
+          menuItems={province}
+          reactHookForm={reactHookForm}
         />
       </Grid>
       <Grid>
-        <Input
-          bordered
-          label="รหัสไปรษณีย์"
-          placeholder="รหัสไปรษณีย์"
-          color="primary"
-          {...register("O_zipcode")}
+        <DropdownInput
+          formName={"O_district"}
+          nameLabel={"อำเภอ"}
+          menuItems={district.filter((item) => Math.floor((item.value/100)%100) == watch("O_province"))}
+          reactHookForm={reactHookForm}
         />
       </Grid>
+      <Grid>
+        <DropdownInput
+          formName={"O_subDistrict"}
+          nameLabel={"ตำบล"}
+          menuItems={subDistrict.filter((item) => Math.floor((item.value/100)%100000) == watch("O_district"))}
+          reactHookForm={reactHookForm}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName={"O_zipcode"}
+          nameLabel={"รหัสไปรษณีย์"}
+          menuItems={zipcode.filter((item) => item.value == watch("O_subDistrict"))}
+          reactHookForm={reactHookForm}
+        />
+      </Grid>
+
       <Grid>
         <Input
           bordered
@@ -365,40 +379,38 @@ export default function Personalized(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          nameLabel={"ตำบล"}
-          menuItems={gdtype}
-          selectedNname={selectedSubDistrict2}
-          setSelectedNname={setSelectedSubDistrict2}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          nameLabel={"อำเภอ"}
-          menuItems={gdtype}
-          selectedNname={selectedDistrict2}
-          setSelectedNname={setSelectedDistrict2}
-          // disable={true}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
+          formName={"P_province"}
           nameLabel={"จังหวัด"}
-          menuItems={gdtype}
-          selectedNname={selectedProvince2}
-          setSelectedNname={setSelectedProvince2}
-          // disable={true}
+          menuItems={province}
+          reactHookForm={reactHookForm}
+          disabled={checkbox}
         />
       </Grid>
       <Grid>
-        <Input
-          bordered
-          label="รหัสไปรษณีย์"
-          placeholder="รหัสไปรษณีย์"
-          color="primary"
-          {...register("P_zipcode")}
-          // disabled={checkbox}
-          readOnly={checkbox}
+        <DropdownInput
+          formName={"P_district"}
+          nameLabel={"อำเภอ"}
+          menuItems={!checkbox ? district.filter((item) => Math.floor((item.value/100)%100) == watch("P_province")): district}
+          reactHookForm={reactHookForm}
+          disabled={checkbox}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName={"P_subDistrict"}
+          nameLabel={"ตำบล"}
+          menuItems={!checkbox ? subDistrict.filter((item) => Math.floor((item.value/100)%100000) == watch("P_district")): subDistrict}
+          reactHookForm={reactHookForm}
+          disabled={checkbox}
+        />
+      </Grid>
+      <Grid>
+        <DropdownInput
+          formName={"P_zipcode"}
+          nameLabel={"รหัสไปรษณีย์"}
+          menuItems={!checkbox ? zipcode.filter((item) => item.value == watch("P_subDistrict")): zipcode}
+          reactHookForm={reactHookForm}
+          disabled={checkbox}
         />
       </Grid>
     </Grid.Container>
