@@ -1,10 +1,11 @@
 import {Grid, Input, Button, Text, Card, Checkbox, Row, Spacer, Col} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
 import React, {useEffect} from "react";
-import Timeline from "../../../components/Timeline";
+import Timelines from "../../../components/Timeline";
+
 export default function TimeLineForm(props) {
-  const { reactHookForm, province, district} = props;
-  const { control, register, watch, dateLists} = reactHookForm;
+  const { reactHookForm, province, district, dateLists} = props;
+  const { control, register, watch} = reactHookForm;
   const [selected, setSelected] = React.useState([]);
 
   useEffect(() => {
@@ -200,15 +201,10 @@ export default function TimeLineForm(props) {
       </Text>
       </Grid>
       <Grid xs={12}>
-        {
-          dateLists?.map((date,index) => {
-            <Timeline
-              reactHookForm={reactHookForm}
-              date={new Date(date)}
-              index={index}
-            />
-          })
-        }
+      <Timelines
+        reactHookForm={reactHookForm}
+        date={dateLists}
+      />
       </Grid>
     </Grid.Container>
   )
