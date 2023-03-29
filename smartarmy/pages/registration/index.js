@@ -425,10 +425,6 @@ export default function Registration() {
   }
 
   useEffect(() => {
-    console.log(dateLists);
-  }, [dateLists]);
-
-  useEffect(() => {
     addDate();
     getOptions();
   }, [])
@@ -563,6 +559,8 @@ export default function Registration() {
       ) : (
         <RegPage
           userProfile={userProfile}
+          setAuthenticate={setAuthenticate}
+          setUserProfile={setUserProfile}
           reactHookForm={reactHookForm}
           thaiAddress={Address}
           // changeAutoComplete={changeAutoComplete}

@@ -1,19 +1,62 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Grid, Input, Card, Text } from "@nextui-org/react";
 import Card_Info from "../../../components/cardInfo";
 import DropdownInput from "../../../components/DropdownInput";
 
 export default function DhForm(props) {
-  const { userProfile, reactHookForm} = props;
-  const { register } = reactHookForm;
+  const { userProfile, reactHookForm,
+    drugType,
+    timimg,
+    yn,
+    isRegister=false,
+  } = props;
+  const { register, getValues,setValue, watch} = reactHookForm;
+  
+  useEffect(() => {
+    if(watch("height") && watch("weight")){
+      const height = watch("height");
+      const weight = watch("weight");
+      const bmi = (weight / (height * height)) * 10000;
+      setValue("bmi", bmi.toFixed(2));
+    }else{
+      setValue("bmi", "");
+      setValue("bmiResult", "");
+      setValue("risk", "");
+    }
+  }, [watch("height"), watch("weight")]);
+
+  // set result bmi
+  useEffect(() => {
+    if(watch("bmi")){
+      const bmi = watch("bmi");
+      if(bmi < 18.5){
+        setValue("bmiResult", "ผอม");
+        setValue("risk","น้ำหนักน้อยกว่าปกติก็ไม่ค่อยดี")
+      }else if(bmi >= 18.5 && bmi <= 22.9){
+        setValue("bmiResult", "ปกติ");
+        setValue("risk","ห่างไกลโรคที่เกิดจากความอ้วน")
+      }else if(bmi >= 23 && bmi <= 24.9){
+        setValue("bmiResult", "ท้วม");
+        setValue("risk","โปรดระมัดระวังโรคที่เกิดจากความอ้วน")
+      }else if(bmi >= 25 && bmi <= 29.9){
+        setValue("bmiResult", "อ้วน");
+        setValue("risk","ความเสี่ยงต่อการเกิดโรคที่มากับความอ้วนได้")
+      }else if(bmi >= 30){
+        setValue("bmiResult", "อ้วนมาก");
+        setValue("risk","ค่อนข้างอันตราย เสี่ยงต่อการเกิดโรคร้ายแรงที่แฝงมากับความอ้วน")
+      }
+    }
+  }, [watch("bmi")]);
 
   return (
     <Fragment>
       <Grid.Container gap={1}>
+        {!isRegister && (
         <Grid xs={0} sm={3}>
           <Card_Info data={userProfile} />
         </Grid>
-        <Grid xs={12} sm={9}>
+        )}
+        <Grid xs={12} sm={!isRegister ? 9:12}>
           <Card>
             <Grid.Container gap={2}>
               <Grid xs={12}>
@@ -25,7 +68,9 @@ export default function DhForm(props) {
                   </Card.Header>
                 </Card>
               </Grid>
-              <Grid>
+              {!isRegister && (
+                <>
+                  <Grid>
                 <Input
                   bordered
                   label="ชื่อ"
@@ -61,6 +106,8 @@ export default function DhForm(props) {
                   {...register("blood")}
                 />
               </Grid>
+                </>
+              )}
               <Grid>
                 <Input
                   bordered
@@ -89,10 +136,19 @@ export default function DhForm(props) {
                 />
               </Grid>
               <Grid>
+                <Input
+                  bordered
+                  label="การแพ้อาหาร"
+                  placeholder="การแพ้อาหาร"
+                  color="primary"
+                  {...register("foodAllergy")}
+                />
+              </Grid>
+              <Grid>
                 <DropdownInput
                   formName={"drugUsed"}
                   nameLabel={"ใช้ยาประจำหรือไม่"}
-                  menuItems={[]}
+                  menuItems={yn}
                   reactHookForm={reactHookForm}
                 />
               </Grid>
@@ -138,6 +194,7 @@ export default function DhForm(props) {
                   bordered
                   label="ดัชนีมวลกาย"
                   placeholder="ดัชนีมวลกาย"
+                  readOnly
                   color="primary"
                   {...register("bmi")}
                 />
@@ -147,6 +204,7 @@ export default function DhForm(props) {
                   bordered
                   label="ผลลัพธ์"
                   placeholder="ผลลัพธ์"
+                  readOnly
                   color="primary"
                   {...register("bmiResult")}
                 />
@@ -156,6 +214,7 @@ export default function DhForm(props) {
                   bordered
                   label="ความเสี่ยงต่อโรค"
                   placeholder="ความเสี่ยงต่อโรค"
+                  readOnly
                   color="primary"
                   {...register("risk")}
                 />
@@ -174,7 +233,7 @@ export default function DhForm(props) {
                 <DropdownInput
                   formName={"drugVUsed"}
                   nameLabel={"ท่านเคยใช้สารเสพติดหรือไม่"}
-                  menuItems={[]}
+                  menuItems={yn}
                   reactHookForm={reactHookForm}
                 />
               </Grid>
@@ -182,7 +241,7 @@ export default function DhForm(props) {
                 <DropdownInput
                   formName={"drugVType"}
                   nameLabel={"ประเภทของสารเสพติดที่ใช้"}
-                  menuItems={[]}
+                  menuItems={drugType}
                   reactHookForm={reactHookForm}
                 />
               </Grid>
@@ -190,7 +249,7 @@ export default function DhForm(props) {
                 <DropdownInput
                   formName={"drugVUsedTime"}
                   nameLabel={"เคยใช้มาแล้วเป็นเวลาเท่าใด"}
-                  menuItems={[]}
+                  menuItems={timimg}
                   reactHookForm={reactHookForm}
                 />
               </Grid>
@@ -209,7 +268,7 @@ export default function DhForm(props) {
                   nameLabel={
                     "หากเลิกใช้สารเสพติดแล้ว เคยเลิกใช้มาเป็นเวลาเท่าใด"
                   }
-                  menuItems={[]}
+                  menuItems={timimg}
                   reactHookForm={reactHookForm}
                 />
               </Grid>

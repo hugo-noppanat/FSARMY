@@ -21,9 +21,8 @@ export default function Timelines(props) {
   });
 
   useEffect(() => {
-    console.log("fields", fields);
     if (fields.length === 0) {
-      append({ time: "", location: "", practice: "", note: "" });
+      append();
     }
   }, []);
 
@@ -47,14 +46,21 @@ export default function Timelines(props) {
                       <Fragment key={field.id}>
                       
                       <Grid xs={12}>
-                <h5 className="vertical-timeline-element-title">{
+                <Input
+                className="vertical-timeline-element-title"
+                underlined
+                readOnly
+                {...register(`timeline.${index}.date.${(new Date(date).getDate()).toString()}`)}
+                css={{fontSize:"25px"}}
+                initialValue={
                   new Date(date).toLocaleDateString(
                     "th-TH",
                     {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric',
-                  })}</h5>
+                  })}
+                />
               </Grid>
               {/* <Row justify="end">
                         <Button light size={"sm"} css={{minWidth:"0px"}} icon={<AddCircle/>} onClick={()=>{ append({ time: "", location: "", practice: "", note: "" });}}/> 
@@ -63,7 +69,7 @@ export default function Timelines(props) {
               <Grid xs={12}>
                 <Row>
                 <DropdownInput
-                  formName={`timeline.${index}.time.${new Date(date).getDate()}`}
+                  formName={`timeline.${index}.time.${(new Date(date).getDate()).toString()}`}
                   nameLabel={"ห้วงเวลา"}
                   menuItems={[
                     { value: "1", label: "1" },
@@ -78,7 +84,7 @@ export default function Timelines(props) {
                   placeholder="สถานที่"
                   label="สถานที่"
                   color="primary"
-                  {...register(`timeline.${index}.location.${new Date(date).getDate()}`)}
+                  {...register(`timeline.${index}.location.${(new Date(date).getDate()).toString()}`)}
                 />
                 </Row>
               </Grid>
@@ -90,7 +96,7 @@ export default function Timelines(props) {
                     color="primary"
                     width="100%"
                     rows={5}
-                    {...register(`timeline.${index}.practice.${new Date(date).getDate()}`)}
+                    {...register(`timeline.${index}.practice.${(new Date(date).getDate()).toString()}`)}
                   />
                 </Row>
               </Grid>
@@ -102,7 +108,7 @@ export default function Timelines(props) {
                     color="primary"
                     width="100%"
                     rows={3}
-                    {...register(`timeline.${index}.note.${new Date(date).getDate()}`)}
+                    {...register(`timeline.${index}.note.${(new Date(date).getDate()).toString()}`)}
                   />
                 </Row>
               </Grid>

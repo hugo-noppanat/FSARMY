@@ -9,6 +9,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import DailyHealth from "./tabs/DailyHealth";
 import MedicalInfo from "./tabs/MedicalInfo";
 import { useForm } from "react-hook-form";
+import Scanner from "./scanqrCode";
 
 export default function Medical_Info() {
   const [selectData, setSelectData] = useState([]);
@@ -123,6 +124,40 @@ export default function Medical_Info() {
               </Card.Header>
             </Card>
           </Grid>
+          <Grid xs={12} justify="center">
+            <Card
+              isPressable
+              isHoverable
+              variant="bordered"
+              css={{ p: "$6", mw: "90%" }}
+              onClick={() => {
+                setSelectData("Scanner");
+                setPageName("บันทึกข้อมูลสุขภาพด้วยการสแกนคิวอาร์โค้ด");
+              }}
+            >
+              <Card.Header>
+                <HealthAndSafetyIcon sx={{ fontSize: 60 }} />
+                <Grid.Container
+                  css={{ pl: "$6", paddingLeft: "25px" }}
+                  // justify="center"
+                  // align="center"
+                >
+                  <Grid xs={12}>
+                    <Text h4 css={{ lineHeight: "$xs" }}>
+                    บันทึกข้อมูลสุขภาพด้วยการสแกนคิวอาร์โค้ด
+                    </Text>
+                  </Grid>
+                  {/* <div className="line" style={{height:"0px"}}></div> */}
+                  <Grid xs={12} css={{ marginTop: "10px" }}>
+                    <Text css={{ color: "$accents8", fontSize: "80%" }}>
+                    ระบบบันทึกข้อมูลการวัดอุณหภูมิ และ ปัสสาวะประจำวันของทหารใหม่ ด้วยคิวอาร์โค้ด
+                    </Text>
+                  </Grid>
+                </Grid.Container>
+                <KeyboardArrowRightIcon sx={{ fontSize: 60 }} />
+              </Card.Header>
+            </Card>
+          </Grid>
         </Grid.Container>
       )}
       {selectData === "MedicalInfo" && 
@@ -148,6 +183,9 @@ export default function Medical_Info() {
         viewData={viewData}
         reactHookForm={reactHookForm}
         />
+      )}
+      {selectData === "Scanner" && (
+        <Scanner/>
       )}
     </Fragment>
   );

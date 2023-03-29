@@ -88,12 +88,12 @@ export default function UserPage() {
             </Grid>
             <Grid>
           <Row justify="end" className=" d-flex mb-2 p-2">
-            <Button size={"sm"} color={"error"} flat onClick={() => console.log("Download")}>
+            <Button size={"sm"} color={"error"} flat onClick={() => router.back}>
               ยกเลิก
             </Button>
             <Spacer x={0.5} />
             <Button size={"sm"} coler={"primary"} flat onClick={() => console.log("Download")}>
-              นำเข้า
+              บันทึก
             </Button>
           </Row>
         </Grid>

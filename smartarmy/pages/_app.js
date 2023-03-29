@@ -8,10 +8,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { SessionProvider, useSession} from "next-auth/react"
 import { NextUIProvider } from '@nextui-org/react';
 import { createTheme } from "@nextui-org/react"
+import { useSSR } from '@nextui-org/react'
 import { ThemeProvider as MuiThemeProvider, createTheme as createMuiTheme } from '@mui/material/styles';
 
 function MyApp({ Component, pageProps, session}) {
   const router = useRouter()
+  const { isBrowser } = useSSR()
   const theme = createTheme({
     type: "light", // it could be "light" or "dark"
     theme: {
@@ -33,6 +35,7 @@ function MyApp({ Component, pageProps, session}) {
 
   return (
     <>
+    {isBrowser && (
       <SessionProvider session={session}>
         <NextUIProvider theme={theme}>
           <MuiThemeProvider theme={thememui}>
@@ -43,8 +46,7 @@ function MyApp({ Component, pageProps, session}) {
           </MuiThemeProvider>
         </NextUIProvider>
       </SessionProvider>
-      
-      
+    )}
     </>
   )
 }

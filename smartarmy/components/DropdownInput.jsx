@@ -11,10 +11,11 @@ export default function DropdownInput(prop) {
     rules = null,
     reactHookForm,
     isReadOnly = false,
+    defaultValue = null,
     // props for custom width and height select tag
   } = prop;
 
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(defaultValue);
 
   
   return (

@@ -1,7 +1,5 @@
 import {Grid, Input, Text, Card} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 
 export default function OtherInfoForm(prop){
   const { 
@@ -12,7 +10,7 @@ export default function OtherInfoForm(prop){
     ability,
   } = prop;
 
-  const {register, handleSubmit} = reactHookForm;
+  const {register} = reactHookForm;
 
   return(
     <Grid.Container gap={2}>
@@ -57,14 +55,14 @@ export default function OtherInfoForm(prop){
           reactHookForm={reactHookForm}
         />
       </Grid>
-      <Grid css={{marginLeft:"4rem"}}>
+      {/* <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
           formName={"chinaLanguageAbility"}
           nameLabel={"ภาษาจีน"}
           menuItems={ability}
           reactHookForm={reactHookForm}
         />
-      </Grid>
+      </Grid> */}
       <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
           formName={"karanLanguageAbility"}
@@ -94,7 +92,7 @@ export default function OtherInfoForm(prop){
       <Grid xs={12}></Grid>
       <Grid>
         <DropdownInput
-          formName={"ComputerAbility"}
+          formName={"jobAbility"}
           nameLabel={"ความสามารถด้านอาชีพ"}
           menuItems={yep}
           reactHookForm={reactHookForm}
@@ -142,12 +140,8 @@ export default function OtherInfoForm(prop){
       </Grid>
       {/* <Grid>
         <DropdownInput
-          nameLabel={"การรับราชการ"}
-          menuItems={[
-            {label: }
-          ]}
-          selectedNname={[]}
-          setSelectedNname={[]}
+          formName={"reasonForEnlistment"}
+
           />
       </Grid> */}
       {/* <Grid xs={12}>
@@ -162,7 +156,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"เคยถูกจับกุมหรือไม่"}
+          formName={"arrested"}
           nameLabel={"เคยถูกจับกุมหรือไม่"}
           menuItems={hdh}
           reactHookForm={reactHookForm}
@@ -174,7 +168,7 @@ export default function OtherInfoForm(prop){
           label={"เมื่อวันที่"}
           type="date"
           color="primary"
-          {...register("date")}
+          {...register("dateArrested")}
         />
       </Grid>
       <Grid>
@@ -183,7 +177,7 @@ export default function OtherInfoForm(prop){
           label={"ผลการตัดสิน"}
           placeholder="ผลการตัดสิน"
           color="primary"
-          {...register("result")}
+          {...register("resultArrested")}
         />
       </Grid>
       <Grid>

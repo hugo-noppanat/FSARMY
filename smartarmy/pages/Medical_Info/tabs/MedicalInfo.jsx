@@ -73,6 +73,7 @@ export default function MedicalInfo(props) {
     }
   ];
 
+
   return (
     <Fragment>
       {editData || viewData ? (

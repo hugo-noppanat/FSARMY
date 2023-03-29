@@ -1,6 +1,6 @@
 import {Grid, Input, Button, Text, Card, Checkbox} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
-import { useState, useMemo} from "react";
+import { useState, useEffect} from "react";
 import { getValueFromDropdown } from "./getValueFromDropdown";
 
 export default function EducationForm(prop){
@@ -14,7 +14,17 @@ export default function EducationForm(prop){
     education
   } = prop;
 
-  const {register, handleSubmit} = reactHookForm;
+  const {register, watch, setValue} = reactHookForm;
+
+  useEffect(() => {
+    if(watch("S_subDistrict")){
+      const code = zipcode.find((item) => {
+        if(item.value === watch("S_subDistrict")){
+          setValue("S_zipcode", item.value);
+        }
+      })
+    }
+  },[watch("S_subDistrict")])
 
   return(
     <Grid.Container gap={2}>
@@ -84,7 +94,7 @@ export default function EducationForm(prop){
           <DropdownInput
             formName="S_district"
             nameLabel={"อำเภอ"}
-            menuItems={district}
+            menuItems={district.filter((item) => Math.floor((item.value/100)%100) == watch("S_province"))}
             reactHookForm={reactHookForm}
           />
         </Grid>
@@ -92,18 +102,17 @@ export default function EducationForm(prop){
         <DropdownInput
             formName="S_subDistrict"
             nameLabel={"ตำบล"}
-            menuItems={subDistrict}
+            menuItems={subDistrict.filter((item) => Math.floor((item.value/100)%100000) == watch("S_district"))}
             reactHookForm={reactHookForm}
           />
         </Grid>
         <Grid>
-          <Input
-            bordered
-            label="รหัสไปรษณีย์"
-            placeholder="รหัสไปรษณีย์"
-            color="primary"
-            {...register("S_postal_code")}
-          />
+        <DropdownInput
+          formName={"S_zipcode"}
+          nameLabel={"รหัสไปรษณีย์"}
+          menuItems={zipcode.filter((item) => item.value == watch("S_subDistrict"))}
+          reactHookForm={reactHookForm}
+        />
         </Grid>
         <Grid xs={12}>
           <DropdownInput

@@ -16,11 +16,13 @@ export default function Personalized(prop) {
     district,
     province,
     zipcode,
+    selectAddress,
+    isRegister=false,
   } = prop;
 
   const [checkbox, setCheckbox] = useState(false);
 
-  const {register, handleSubmit, reset, getValues, watch} = reactHookForm;
+  const {register, handleSubmit, reset, getValues,setValue, watch} = reactHookForm;
 
 
   const gdtype = [
@@ -68,15 +70,21 @@ export default function Personalized(prop) {
   //set zipcode from selected subDistrict
   useEffect(() => {
     if(watch("O_subDistrict")){
-      const code = zipcode.map((item) => {
+      const code = zipcode.find((item) => {
         if(item.value === watch("O_subDistrict")){
-          reset({
-            O_zipcode: item.value
-          })
+          setValue("O_zipcode", item.value);
         }
       })
     }
-  },[watch("P_subDistrict")])
+  },[watch("O_subDistrict")])
+
+  useEffect(() => {
+    if(watch("brithday")){
+      //calculate age form brithday
+      setValue("age", new Date().getFullYear() - watch("brithday").split("-")[0]);
+    }
+  },[watch("brithday")])
+
 
   const onSelectedCheckBox = (e) => {
     if (checkbox) {
@@ -98,7 +106,8 @@ export default function Personalized(prop) {
           nameLabel={"คำนำหน้า"}
           menuItems={gdtype}
           reactHookForm={reactHookForm}
-          // isReadOnly={true}
+          isReadOnly
+          defaultValue={"พลทหาร"}
           rules={{ required: true }}
         />
       </Grid>
@@ -109,7 +118,6 @@ export default function Personalized(prop) {
           placeholder="ชื่อ"
           color="primary"
           {...register("firstname")}
-          readOnly={true}
         />
       </Grid>
       <Grid>
@@ -136,7 +144,7 @@ export default function Personalized(prop) {
           label="วันเดือนปีเกิด"
           type="date"
           color="primary"
-          {...register("ิbrithday")}
+          {...register("brithday")}
         />
       </Grid>
       <Grid>
@@ -158,13 +166,16 @@ export default function Personalized(prop) {
         />
       </Grid>
       <Grid>
-        <Input
+        {!isRegister && (
+          <Input
           bordered
           label="เลขประจำตัว"
           placeholder="เลขประจำตัว"
           color="primary"
           {...register("rta_id")}
         />
+        )}
+        
       </Grid>
       <Grid>
         <DropdownInput
@@ -172,7 +183,7 @@ export default function Personalized(prop) {
           nameLabel={"กรุ๊ปเลือด"}
           menuItems={bloodType}
           reactHookForm={reactHookForm}
-          isReadOnly={true}
+          // isReadOnly={true}
         />
       </Grid>
       <Grid>
@@ -181,6 +192,7 @@ export default function Personalized(prop) {
           label="จำนวนปีที่รับราชการ"
           placeholder="จำนวนปีที่รับราชการ"
           color="primary"
+          type={"number"}
           {...register("rta_year")}
         />
       </Grid>

@@ -1,12 +1,20 @@
-import {Grid, Input, Button, Text, Card, Checkbox,Row} from "@nextui-org/react";
+import {
+  Grid,
+  Input,
+  Button,
+  Text,
+  Card,
+  Checkbox,
+  Row,
+} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
-import { useState, useMemo, Fragment, useEffect} from "react";
+import { useState, useMemo, Fragment, useEffect } from "react";
 import { getValueFromDropdown } from "./getValueFromDropdown";
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 import { useFieldArray } from "react-hook-form";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 export default function FamilyForm(prop) {
   const {
@@ -22,34 +30,44 @@ export default function FamilyForm(prop) {
     statusLife,
   } = prop;
 
-  const {register, control} = reactHookForm;
+  const { register, control, watch, setValue } = reactHookForm;
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "familyForm"
+    name: "familyForm",
   });
-  
+  const [checkbox, setCheckbox] = useState(false);
+  const [checkbox2, setCheckbox2] = useState(false);
 
   useEffect(() => {
-    append({ name: "familyForm" });
-  }, []);
-  return(
+    if (fields.length === 0) {
+      append();
+    }
+  }, [checkbox]);
+
+  return (
     <Grid.Container gap={2}>
       <Grid>
         <DropdownInput
           formName="family"
-          nameLabel={"ปัจจุบัน บิดา มารดา (อยู่ด้วยกัน, แยกกันอยู่, หรือ หย่าร้าง)"}
+          nameLabel={
+            "ปัจจุบัน บิดา มารดา (อยู่ด้วยกัน, แยกกันอยู่, หรือ หย่าร้าง)"
+          }
           menuItems={statusFamily}
           reactHookForm={reactHookForm}
         />
       </Grid>
       <Grid xs={12}>
-        <Text css={{fontWeight: "bold", marginBottom:"0px", marginTop:"5px"}}>ข้อมูลบิดา</Text>
+        <Text
+          css={{ fontWeight: "bold", marginBottom: "0px", marginTop: "5px" }}
+        >
+          ข้อมูลบิดา
+        </Text>
       </Grid>
       <Grid>
         <Input
           bordered
           label="ชื่อบิดา"
-          Placeholder="ชื่อบิดา"
+          placeholder="ชื่อบิดา"
           color="primary"
           {...register("F_firstname")}
         />
@@ -58,7 +76,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="นามสกุลบิดา"
-          Placeholder="นามสกุลบิดา"
+          placeholder="นามสกุลบิดา"
           color="primary"
           {...register("F_lastname")}
         />
@@ -67,7 +85,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="อายุ"
-          Placeholder="อายุ"
+          placeholder="อายุ"
           color="primary"
           {...register("F_age")}
         />
@@ -76,7 +94,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="อาชีพ"
-          Placeholder="อาชีพ"
+          placeholder="อาชีพ"
           color="primary"
           {...register("F_career")}
         />
@@ -85,13 +103,13 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="รายได้ต่อเดือน"
-          Placeholder="รายได้ต่อเดือน"
+          placeholder="รายได้ต่อเดือน"
           color="primary"
           {...register("F_income")}
         />
       </Grid>
       <Grid>
-      <DropdownInput
+        <DropdownInput
           formName="F_status"
           nameLabel={"ปัจจุบันบิดา"}
           menuItems={statusLife}
@@ -101,19 +119,18 @@ export default function FamilyForm(prop) {
       {/* <Grid xs={12}>
         <Input
           bordered
-          labelPlaceholder="กรุณากรอกที่อยู่"
+          labelplaceholder="กรุณากรอกที่อยู่"
           color="primary"
           css={{width:"100%"}}
           {...register("PreAddress1")}
         />
       </Grid> */}
-      <Grid xs={12} css={{marginTop:"0px"}}>
-      </Grid>
+      <Grid xs={12} css={{ marginTop: "0px" }}></Grid>
       <Grid>
         <Input
           bordered
           label="บ้านเลขที่"
-          Placeholder="บ้านเลขที่"
+          placeholder="บ้านเลขที่"
           color="primary"
           {...register("F_address")}
         />
@@ -122,7 +139,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="หมู่ที่"
-          Placeholder="หมู่ที่"
+          placeholder="หมู่ที่"
           color="primary"
           {...register("F_moo")}
         />
@@ -131,7 +148,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="ตรอก/ซอย"
-          Placeholder="ตรอก/ซอย"
+          placeholder="ตรอก/ซอย"
           color="primary"
           {...register("F_soi")}
         />
@@ -140,7 +157,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="ถนน"
-          Placeholder="ถนน"
+          placeholder="ถนน"
           color="primary"
           {...register("F_road")}
         />
@@ -158,7 +175,10 @@ export default function FamilyForm(prop) {
         <DropdownInput
           formName="F_district"
           nameLabel={"อำเภอ"}
-          menuItems={district}
+          menuItems={district.filter(
+            (item) =>
+              Math.floor((item.value / 100) % 100) == watch("F_province")
+          )}
           reactHookForm={reactHookForm}
           // disable={true}
         />
@@ -167,37 +187,45 @@ export default function FamilyForm(prop) {
         <DropdownInput
           formName="F_subDistrict"
           nameLabel={"ตำบล"}
-          menuItems={subDistrict}
+          menuItems={subDistrict.filter(
+            (item) =>
+              Math.floor((item.value / 100) % 100000) == watch("F_district")
+          )}
           reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>
       <Grid>
-        <Input
-          bordered
-          label="รหัสไปรษณีย์"
-          Placeholder="รหัสไปรษณีย์"
-          color="primary"
-          {...register("F_zipcode")}
+        <DropdownInput
+          formName={"F_zipcode"}
+          nameLabel={"รหัสไปรษณีย์"}
+          menuItems={zipcode.filter(
+            (item) => item.value == watch("F_subDistrict")
+          )}
+          reactHookForm={reactHookForm}
         />
       </Grid>
       <Grid xs={12}>
-        <Text css={{fontWeight: "bold", marginBottom:"0px", marginTop:"5px"}}>ข้อมูลมารดา</Text>
+        <Text
+          css={{ fontWeight: "bold", marginBottom: "0px", marginTop: "5px" }}
+        >
+          ข้อมูลมารดา
+        </Text>
       </Grid>
       <Grid>
         <Input
           bordered
           label="ชื่อมารดา"
-          Placeholder="ชื่อมารดา"
+          placeholder="ชื่อมารดา"
           color="primary"
           {...register("M_firstname")}
-        />  
+        />
       </Grid>
       <Grid>
         <Input
           bordered
           label="นามสกุลมารดา"
-          Placeholder="นามสกุลมารดา"
+          placeholder="นามสกุลมารดา"
           color="primary"
           {...register("M_lastname")}
         />
@@ -206,7 +234,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="อายุ"
-          Placeholder="อายุ"
+          placeholder="อายุ"
           color="primary"
           {...register("M_age")}
         />
@@ -215,7 +243,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="อาชีพ"
-          Placeholder="อาชีพ"
+          placeholder="อาชีพ"
           color="primary"
           {...register("M_career")}
         />
@@ -224,7 +252,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="รายได้ต่อเดือน"
-          Placeholder="รายได้ต่อเดือน"
+          placeholder="รายได้ต่อเดือน"
           color="primary"
           {...register("M_income")}
         />
@@ -240,7 +268,7 @@ export default function FamilyForm(prop) {
       {/* <Grid xs={12}>
         <Input
           bordered
-          labelPlaceholder="กรุณากรอกที่อยู่"
+          labelplaceholder="กรุณากรอกที่อยู่"
           color="primary"
           css={{width:"100%"}}
           {...register("PreAddress2")}
@@ -266,13 +294,12 @@ export default function FamilyForm(prop) {
           )}
         />
       </Grid> */}
-      <Grid xs={12} css={{marginTop:"0px"}}>
-      </Grid>
+      <Grid xs={12} css={{ marginTop: "0px" }}></Grid>
       <Grid>
         <Input
           bordered
           label="บ้านเลขที่"
-          Placeholder="บ้านเลขที่"
+          placeholder="บ้านเลขที่"
           color="primary"
           {...register("M_address")}
         />
@@ -281,7 +308,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="หมู่ที่"
-          Placeholder="หมู่ที่"
+          placeholder="หมู่ที่"
           color="primary"
           {...register("M_moo")}
         />
@@ -290,7 +317,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="ตรอก/ซอย"
-          Placeholder="ตรอก/ซอย"
+          placeholder="ตรอก/ซอย"
           color="primary"
           {...register("M_soi")}
         />
@@ -299,7 +326,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="ถนน"
-          Placeholder="ถนน"
+          placeholder="ถนน"
           color="primary"
           {...register("M_road")}
         />
@@ -317,7 +344,10 @@ export default function FamilyForm(prop) {
         <DropdownInput
           formName="M_district"
           nameLabel={"อำเภอ"}
-          menuItems={district}
+          menuItems={district.filter(
+            (item) =>
+              Math.floor((item.value / 100) % 100) == watch("M_province")
+          )}
           reactHookForm={reactHookForm}
           // disable={true}
         />
@@ -326,274 +356,287 @@ export default function FamilyForm(prop) {
         <DropdownInput
           formName="M_subDistrict"
           nameLabel={"ตำบล"}
-          menuItems={subDistrict}
+          menuItems={subDistrict.filter(
+            (item) =>
+              Math.floor((item.value / 100) % 100000) == watch("M_district")
+          )}
           reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>
       <Grid>
-        <Input
-          bordered
-          label="รหัสไปรษณีย์"
-          Placeholder="รหัสไปรษณีย์"
-          color="primary"
-          {...register("M_zipcode")}
+        <DropdownInput
+          formName={"M_zipcode"}
+          nameLabel={"รหัสไปรษณีย์"}
+          menuItems={zipcode.filter(
+            (item) => item.value == watch("M_subDistrict")
+          )}
+          reactHookForm={reactHookForm}
         />
       </Grid>
       <Grid xs={12}>
-      <Card css={{ h: "$15", $$cardColor: '$colors$secondary' }}>
-        <Card.Header css={{padding:"5px 10px"}}>
-          <Text size={20} weight={"bold"}>สถานภาพทหารใหม่</Text>
-        </Card.Header>
-      </Card>
+        <Card css={{ h: "$15", $$cardColor: "$colors$secondary" }}>
+          <Card.Header css={{ padding: "5px 10px" }}>
+            <Text size={20} weight={"bold"}>
+              สถานภาพทหารใหม่
+            </Text>
+          </Card.Header>
+        </Card>
       </Grid>
       <Grid>
         <DropdownInput
-          formName="M_status"
+          formName="army_status"
           nameLabel={"สถานภาพ"}
           menuItems={status}
           reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>
-      <Grid xs={12} justify="end">
-        <Checkbox size="xs">สถานภาพโสด และมีบุตร หรือ สถานภาพหย่าร้าง และมีบุตร</Checkbox>
+      <Grid xs={12}>
+        <Checkbox onChange={()=> {checkbox2 ? setCheckbox2(false): setCheckbox2(true)}} size="xs">มีภรรยาที่ถูกต้องตามกฏหมาย</Checkbox>
       </Grid>
       {/* ภรรยา */}
-      <Grid>
-        <Input
-          bordered
-          label="ชื่อภรรยา"
-          Placeholder="ชื่อภรรยา"
-          color="primary"
-          {...register("W_firstname")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="นามสกุลภรรยา"
-          Placeholder="นามสกุลภรรยา"
-          color="primary"
-          {...register("W_lastname")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="อายุ"
-          Placeholder="อายุ"
-          color="primary"
-          {...register("W_age")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="อาชีพ"
-          Placeholder="อาชีพ"
-          color="primary"
-          {...register("W_career")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="รายได้ต่อเดือน"
-          Placeholder="รายได้ต่อเดือน"
-          color="primary"
-          {...register("W_income")}
-        />
-      </Grid>
-      {/* ที่อยู่ภรรยา */}
-      {/* <Grid xs={12}>
-        <Autocomplete
-          id="free-solo"
-          fullWidth
-          freeSolo
-          options={thaiAddress.map((option) => option.title)}
-          onChange={(e, value)=>{changeAutoComplete(value)}}
-          renderInput={(params) => (
-            <TextField 
-            variant="standard"
-            label="Search input"
-            {...params}
-            InputProps={{
-              ...params.InputProps,
-              type: 'search',
-            }}
-          />
-          )}
-        />
-      </Grid> */}
-      <Grid xs={12} css={{marginTop:"0px"}}>
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="บ้านเลขที่"
-          Placeholder="บ้านเลขที่"
-          color="primary"
-          {...register("W_address")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="หมู่ที่"
-          Placeholder="หมู่ที่"
-          color="primary"
-          {...register("W_moo")}
-        />  
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="ตรอก/ซอย"
-          Placeholder="ตรอก/ซอย"
-          color="primary"
-          {...register("W_soi")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="ถนน"
-          Placeholder="ถนน"
-          color="primary"
-          {...register("W_road")}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          formName="W_province"
-          nameLabel={"จังหวัด"}
-          menuItems={province}
-          reactHookForm={reactHookForm}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          formName="W_district"
-          nameLabel={"อำเภอ"}
-          menuItems={district}
-          reactHookForm={reactHookForm}
-        />
-      </Grid>
-      <Grid>
-        <DropdownInput
-          formName="W_subDistrict"
-          nameLabel={"ตำบล"}
-          menuItems={subDistrict}
-          reactHookForm={reactHookForm}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="รหัสไปรษณีย์"
-          Placeholder="รหัสไปรษณีย์"
-          color="primary"
-          {...register("W_zipcode")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="เบอร์โทรศัพท์"
-          Placeholder="เบอร์โทรศัพท์"
-          color="primary"
-          {...register("W_tel")}
-        />
-      </Grid>
+      {checkbox2 && (
+        <>
+          <Grid>
+            <Input
+              bordered
+              label="ชื่อภรรยา"
+              placeholder="ชื่อภรรยา"
+              color="primary"
+              {...register("W_firstname")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="นามสกุลภรรยา"
+              placeholder="นามสกุลภรรยา"
+              color="primary"
+              {...register("W_lastname")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="อายุ"
+              placeholder="อายุ"
+              color="primary"
+              {...register("W_age")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="อาชีพ"
+              placeholder="อาชีพ"
+              color="primary"
+              {...register("W_career")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="รายได้ต่อเดือน"
+              placeholder="รายได้ต่อเดือน"
+              color="primary"
+              {...register("W_income")}
+            />
+          </Grid>
+          <Grid xs={12} css={{ marginTop: "0px" }}></Grid>
+          <Grid>
+            <Input
+              bordered
+              label="บ้านเลขที่"
+              placeholder="บ้านเลขที่"
+              color="primary"
+              {...register("W_address")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="หมู่ที่"
+              placeholder="หมู่ที่"
+              color="primary"
+              {...register("W_moo")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="ตรอก/ซอย"
+              placeholder="ตรอก/ซอย"
+              color="primary"
+              {...register("W_soi")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="ถนน"
+              placeholder="ถนน"
+              color="primary"
+              {...register("W_road")}
+            />
+          </Grid>
+          <Grid>
+            <DropdownInput
+              formName="W_province"
+              nameLabel={"จังหวัด"}
+              menuItems={province}
+              reactHookForm={reactHookForm}
+            />
+          </Grid>
+          <Grid>
+            <DropdownInput
+              formName="W_district"
+              nameLabel={"อำเภอ"}
+              menuItems={district.filter(
+                (item) =>
+                  Math.floor((item.value / 100) % 100) == watch("W_province")
+              )}
+              reactHookForm={reactHookForm}
+            />
+          </Grid>
+          <Grid>
+            <DropdownInput
+              formName="W_subDistrict"
+              nameLabel={"ตำบล"}
+              menuItems={subDistrict.filter(
+                (item) =>
+                  Math.floor((item.value / 100) % 100000) == watch("W_district")
+              )}
+              reactHookForm={reactHookForm}
+            />
+          </Grid>
+          <Grid>
+            <DropdownInput
+              formName={"W_zipcode"}
+              nameLabel={"รหัสไปรษณีย์"}
+              menuItems={zipcode.filter(
+                (item) => item.value == watch("W_subDistrict")
+              )}
+              reactHookForm={reactHookForm}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="เบอร์โทรศัพท์"
+              placeholder="เบอร์โทรศัพท์"
+              color="primary"
+              {...register("W_tel")}
+            />
+          </Grid>
+        </>
+      )}
       <Grid xs={12}>
-        <Checkbox size="xs">มีบุตร</Checkbox>
+        <Checkbox onChange={()=> {checkbox ? setCheckbox(false): setCheckbox(true)}} size="xs">
+          มีบุตร
+        </Checkbox>
       </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="จำนวนบุตร (คน)"
-          Placeholder="จำนวนบุตร"
-          color="primary"
-          {...register("W_child")}
-        /> 
-      </Grid>
+      {checkbox && (
+        <>
+          <Grid>
+            <Input
+              bordered
+              label="จำนวนบุตร (คน)"
+              placeholder="จำนวนบุตร"
+              color="primary"
+              {...register("W_child")}
+            />
+          </Grid>
 
-      <Grid>
-        <Input
-          bordered
-          label="เป็นชาย (คน)"
-          Placeholder="เป็นชาย"
-          color="primary"
-          {...register("W_son")}
-        />
-      </Grid>
-      <Grid>
-        <Input
-          bordered
-          label="เป็นหญิง (คน)"
-          Placeholder="เป็นหญิง"
-          color="primary"
-          {...register("W_daughter")}
-        />
-      </Grid>
-      <Row justify="end">
-        <Grid>
-          <Button color="primary" auto ghost onClick={()=>{append({
-            C_firstname: "",
-            C_lastname: "",
-          })}}>
-            <AddCircleIcon className="mx-1"></AddCircleIcon>
-            เพิ่ม
-            </Button>
-        </Grid>
-      </Row>
-      {/* บุตร */}
-      <Grid xs={12}></Grid>
-      {
-        fields.map((item, index) => (
-          <Fragment>
+          <Grid>
+            <Input
+              bordered
+              label="เป็นชาย (คน)"
+              placeholder="เป็นชาย"
+              color="primary"
+              {...register("W_son")}
+            />
+          </Grid>
+          <Grid>
+            <Input
+              bordered
+              label="เป็นหญิง (คน)"
+              placeholder="เป็นหญิง"
+              color="primary"
+              {...register("W_daughter")}
+            />
+          </Grid>
+          <Row justify="end">
             <Grid>
-              <Input
-                key={item}
-                bordered
-                label="ชื่อบุตร"
-                Placeholder="ชื่อบุตร"
+              <Button
                 color="primary"
-                {...register(`familyForm.C_firstname.${index}`)}
-              />
+                auto
+                ghost
+                onClick={() => {
+                  append({
+                    C_firstname: "",
+                    C_lastname: "",
+                  });
+                }}
+              >
+                <AddCircleIcon className="mx-1"></AddCircleIcon>
+                เพิ่ม
+              </Button>
             </Grid>
-            <Grid>
-              <Input
-                key={item}
-                bordered
-                label="นามสกุลบุตร"
-                Placeholder="นามสกุลบุตร"
-                color="primary"
-                {...register(`familyForm.C_lastname.${index}`)}
-              />
-            </Grid>
-            <Grid>
-              <RemoveCircleIcon className="mx-1" style={{marginTop:"2.3rem", cursor: "pointer"}} onClick={() => index > 0 && remove(index)}></RemoveCircleIcon>
-            </Grid>
-          </Fragment>
-        ))
-      }
+          </Row>
+          {/* บุตร */}
+          <Grid xs={12}></Grid>
+          {fields.map((item, index) => (
+            <Fragment key={item.id}>
+              <Grid>
+                <Input
+                  bordered
+                  label="ชื่อบุตร"
+                  placeholder="ชื่อบุตร"
+                  color="primary"
+                  {...register(`familyForm.${index}.C_firstname`)}
+                />
+              </Grid>
+              <Grid>
+                <Input
+                  bordered
+                  label="นามสกุลบุตร"
+                  placeholder="นามสกุลบุตร"
+                  color="primary"
+                  {...register(`familyForm.${index}.C_lastname`)}
+                />
+              </Grid>
+              <Grid>
+                <RemoveCircleIcon
+                  className="mx-1"
+                  style={{ marginTop: "2.3rem", cursor: "pointer" }}
+                  onClick={() => index > 0 && remove(index)}
+                ></RemoveCircleIcon>
+              </Grid>
+            </Fragment>
+          ))}
+        </>
+      )}
       <Grid xs={12}>
-        <Card css={{ h: "$15", $$cardColor: '$colors$secondary' }}>
-          <Card.Header css={{padding:"5px 10px"}}>
-            <Text size={20} weight={"bold"}>ข้อมูลเพิ่มเติม</Text>
+        <Card css={{ h: "$15", $$cardColor: "$colors$secondary" }}>
+          <Card.Header css={{ padding: "5px 10px" }}>
+            <Text size={20} weight={"bold"}>
+              ข้อมูลเพิ่มเติม
+            </Text>
           </Card.Header>
         </Card>
       </Grid>
       <Grid xs={12}>
-        <Text color="warning"> กรุณากรอกข้อมูลญาติ หรือบุคคลใกล้ชิดที่สามารถติดต่อได้</Text>
+        <Text color="warning">
+          {" "}
+          กรุณากรอกข้อมูลญาติ หรือบุคคลใกล้ชิดที่สามารถติดต่อได้
+        </Text>
       </Grid>
       <Grid>
         <Input
           bordered
           label="ชื่อ"
-          Placeholder="ชื่อ"
+          placeholder="ชื่อ"
           color="primary"
           {...register("R_firstname")}
         />
@@ -602,7 +645,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="นามสกุล"
-          Placeholder="นามสกุล"
+          placeholder="นามสกุล"
           color="primary"
           {...register("R_lastname")}
         />
@@ -611,7 +654,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="เกี่ยวข้องเป็น"
-          Placeholder="เกี่ยวข้องเป็น"
+          placeholder="เกี่ยวข้องเป็น"
           color="primary"
           {...register("R_relationship")}
         />
@@ -620,18 +663,17 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="เบอร์โทรศัพท์"
-          Placeholder="เบอร์โทรศัพท์"
+          placeholder="เบอร์โทรศัพท์"
           color="primary"
           {...register("R_tel")}
         />
       </Grid>
-      <Grid xs={12} css={{marginTop:"0px"}}>
-      </Grid>
+      <Grid xs={12} css={{ marginTop: "0px" }}></Grid>
       <Grid>
         <Input
           bordered
           label="บ้านเลขที่"
-          Placeholder="บ้านเลขที่" 
+          placeholder="บ้านเลขที่"
           color="primary"
           {...register("R_address")}
         />
@@ -640,7 +682,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="หมู่ที่"
-          Placeholder="หมู่ที่"
+          placeholder="หมู่ที่"
           color="primary"
           {...register("R_moo")}
         />
@@ -649,7 +691,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="ตรอก/ซอย"
-          Placeholder="ตรอก/ซอย"
+          placeholder="ตรอก/ซอย"
           color="primary"
           {...register("R_soi")}
         />
@@ -658,7 +700,7 @@ export default function FamilyForm(prop) {
         <Input
           bordered
           label="ถนน"
-          Placeholder="ถนน"
+          placeholder="ถนน"
           color="primary"
           {...register("R_road")}
         />
@@ -676,7 +718,10 @@ export default function FamilyForm(prop) {
         <DropdownInput
           formName="R_district"
           nameLabel={"อำเภอ"}
-          menuItems={district}
+          menuItems={district.filter(
+            (item) =>
+              Math.floor((item.value / 100) % 100) == watch("R_province")
+          )}
           reactHookForm={reactHookForm}
           // disable={true}
         />
@@ -685,21 +730,24 @@ export default function FamilyForm(prop) {
         <DropdownInput
           formName="R_subDistrict"
           nameLabel={"ตำบล"}
-          menuItems={subDistrict}
+          menuItems={subDistrict.filter(
+            (item) =>
+              Math.floor((item.value / 100) % 100000) == watch("R_district")
+          )}
           reactHookForm={reactHookForm}
           // disable={true}
         />
       </Grid>
       <Grid>
-        <Input
-          bordered
-          label="รหัสไปรษณีย์"
-          Placeholder="รหัสไปรษณีย์"
-          color="primary"
-          {...register("R_zipcode")}
+        <DropdownInput
+          formName={"R_zipcode"}
+          nameLabel={"รหัสไปรษณีย์"}
+          menuItems={zipcode.filter(
+            (item) => item.value == watch("R_subDistrict")
+          )}
+          reactHookForm={reactHookForm}
         />
       </Grid>
-
     </Grid.Container>
-  )
+  );
 }
