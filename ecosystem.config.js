@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: "frontend",
+      name: "./server/website/frontend",
       script: "./pages/index.js",
     },
   ],
