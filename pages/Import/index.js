@@ -3,7 +3,7 @@ import { Card, Text, Button, Grid} from '@nextui-org/react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import HeaderMenuBar from '../../components/HeaderMenuBar';
+import HeaderMenuBar from '../../components/headerMenuBar';
 
 export default function Import(){
   const [selectData, setSelectData] = useState([]);

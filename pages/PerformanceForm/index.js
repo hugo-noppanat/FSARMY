@@ -3,7 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { Fragment, useEffect, useState } from "react";
 import { Grid, Card, Text } from "@nextui-org/react";
-import HeaderMenuBar from "../../components/HeaderMenuBar";
+import HeaderMenuBar from "../../components/headerMenuBar";
 import DirectionsRunIcon from "@mui/icons-material/DirectionsRun";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import TrackChangesIcon from "@mui/icons-material/TrackChanges";
