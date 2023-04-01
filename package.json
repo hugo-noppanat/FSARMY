@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "export": "next build --legacy-peer-deps --force && next export -o _static",
-    "build:digitalocean": "npm install --production=false --force && npm run build --legacy-peer-deps && npm ci --legacy-peer-deps --force"
+    "build:digitalocean": "npm install --production=false --force --legacy-peer-deps && npm run build --legacy-peer-deps && npm ci --legacy-peer-deps --force"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
