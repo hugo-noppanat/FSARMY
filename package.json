@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --legacy-peer-deps",
+    "build": "next build --legacy-peer-deps --force ",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build --legacy-peer-deps && next export -o _static"
+    "export": "next build --legacy-peer-deps --force && next export -o _static"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
