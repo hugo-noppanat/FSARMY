@@ -5,7 +5,7 @@ import ToastMessage from "../../components/Toast";
 import RegPage from "./RegPage";
 import { useForm } from 'react-hook-form';
 import ThaiAddress from "../../image/ThaiAddress.json";
-import useAxios from '../../components/useAxios';
+import UseAxios from '../../components/UseAxios';
 // import ToastMessage from '../../components/Toast'
 import { getServerSession } from 'next-auth'
 import { authOptions } from "../../pages/api/auth/[...nextauth]";
@@ -49,7 +49,7 @@ export default function Registration() {
 
   async function getOptions (){
     // const token = await getSession();
-    const getSubDistrict = await useAxios({
+    const getSubDistrict = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -70,7 +70,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n SubDistrict Error"})
     }
 
-    const getDistrict = await useAxios({
+    const getDistrict = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -90,7 +90,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n District Error"})
     }
 
-    const getProvince= await useAxios({
+    const getProvince= await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -110,7 +110,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Province Error"})
     }
 
-    const getZipCode = await useAxios({
+    const getZipCode = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -131,7 +131,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n ZipCode Error"})
     }
 
-    const getYn = await useAxios({
+    const getYn = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -151,7 +151,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Y/N Error"})
     }
 
-    const getHnh = await useAxios({
+    const getHnh = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -171,7 +171,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n HDH Error"})
     }
 
-    const getSize = await useAxios({
+    const getSize = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -191,7 +191,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Size Error"})
     }
 
-    const getndn = await useAxios({
+    const getndn = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -211,7 +211,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n NDN Error"})
     }
 
-    const getStatus = await useAxios({
+    const getStatus = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -231,7 +231,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Status Error"})
     }
 
-    const getStatusLife = await useAxios({
+    const getStatusLife = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -251,7 +251,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n StatusLife Error"})
     }
 
-    const getDyn = await useAxios({
+    const getDyn = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -271,7 +271,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n DYN Error"})
     }
 
-    const getDrugType = await useAxios({
+    const getDrugType = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -291,7 +291,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n DrugType Error"})
     }
 
-    const getTimimg = await useAxios({
+    const getTimimg = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -311,7 +311,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Timimg Error"})
     }
 
-    const getStatusLiving = await useAxios({
+    const getStatusLiving = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -331,7 +331,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n StatusLiving Error"})
     }
 
-    const getEducation = await useAxios({
+    const getEducation = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -351,7 +351,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Education Error"})
     }
 
-    const getYep = await useAxios({
+    const getYep = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -371,7 +371,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Yep Error"})
     }
 
-    const getReasonEntry = await useAxios({
+    const getReasonEntry = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
@@ -391,7 +391,7 @@ export default function Registration() {
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n ReasonEntry Error"})
     }
 
-    const getAbility = await useAxios({
+    const getAbility = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{

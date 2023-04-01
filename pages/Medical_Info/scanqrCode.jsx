@@ -4,7 +4,7 @@ import ToastMessage from '../../components/Toast';
 import { useRouter } from 'next/router';
 import {Navigate} from 'react-router-dom';
 
-export default function scanner() {
+export default function Scanner() {
   const router = useRouter()
   const [delay , setDelay]= useState(50000);
   const [result, setResult] = useState('No result');

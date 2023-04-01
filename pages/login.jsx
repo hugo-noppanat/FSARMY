@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { getServerSession } from 'next-auth'
 import { authOptions } from "./api/auth/[...nextauth]";
 
-export default function signin({providers, loginError}){
+export default function Signin({providers, loginError}){
     const {register,handleSubmit} = useForm();
     const [user, setUser] = useState("");
     const router = useRouter();

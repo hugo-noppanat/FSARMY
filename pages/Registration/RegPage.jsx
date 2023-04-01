@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect} from "react";
-import { Button, Container, Spacer, Row, Card, Grid, Modal, Text} from "@nextui-org/react";
+import { Button, Spacer, Row, Card, Grid, Modal, Text} from "@nextui-org/react";
 import Personalized from "../Personal_Info/tabs/Personalized";
 import HeaderMenuBar from "../../components/headerMenuBar";
 import FamilyForm from "../Personal_Info/tabs/FamilyForm";
@@ -11,7 +11,7 @@ import DhForm from "../Medical_Info/tabs/DhForm";
 import { useRouter } from "next/router";
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import useAxios from "../../components/useAxios";
+import UseAxios from "../../components/UseAxios";
 
 export default function RegPage(props) {
   const { reactHookForm, thaiAddress, page, setPage,
@@ -39,7 +39,7 @@ export default function RegPage(props) {
     setUserProfile,
   } = props;
   const [pageName, setPageName] = useState("ข้อมูลประวัติส่วนตัว");
-  const {reset, getValues, setValue, handleSubmit} = reactHookForm;
+  const {setValue, handleSubmit} = reactHookForm;
   const [selectAddress, setSelectAddress] = useState(null);
   const [q1, setQ1] = useState('');
   const [q2, setQ2] = useState('');
@@ -83,7 +83,7 @@ export default function RegPage(props) {
       q8: q8,
       create_user: 'system',
     }
-    const submit = await useAxios({
+    const submit = await UseAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/authen/submitRegNewSoldier`,
       method: 'post',
       data: dataForm,

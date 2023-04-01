@@ -1,5 +1,5 @@
 import axios from "axios";
-export default async function useAxios({
+export default async function UseAxios({
   data: inputData,
   url: inputUrl,
   method: inputMethod,

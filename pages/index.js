@@ -71,6 +71,7 @@ export default function Home() {
                     icon={i.icon}
                     description={i.description}
                     path={i.path}
+                    key={`${uuidv4()}`}
                   />
               )
               })

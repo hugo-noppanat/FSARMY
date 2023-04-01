@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
 import TableCard from "../../components/DataTable";
 import Script from "next/script";
+import ToastMessage from "../../components/Toast";
 
 export default function ImportPage() {
   const reactHookForm = useForm();
@@ -48,13 +49,14 @@ export default function ImportPage() {
 
       fileReader.readAsText(file);
     }
+    else {
+      ToastMessage({
+        type: 'error',
+        message: "กรุณาเลือกไฟล์"
+      })
+    }
   };
 
-  useEffect(() => {
-    if (file) {
-      handleOnSubmit();
-    }
-  }, [file]);
   const headerKeys = Object.keys(Object.assign({}, ...array));
 
   useEffect(() => {
