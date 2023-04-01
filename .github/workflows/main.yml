@@ -29,7 +29,6 @@ jobs:
     - name: Creating a Production Build of React App
       run: | 
         npm run build
-        cd ..
       
   create-envfile:
  
