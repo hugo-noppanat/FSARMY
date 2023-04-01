@@ -51,6 +51,7 @@
     "vertical-timeline-component-react": "^4.4.1"
   },
   "devDependencies": {
-    "@types/node": "18.11.18"
+    "@types/node": "18.11.18",
+    "typescript": "5.0.3"
   }
 }
