@@ -1,10 +1,9 @@
 import {Grid, Input, Button, Text, Card, Checkbox} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
 import { useState, useMemo, useEffect, euseRducer} from "react";
-import { getValueFromDropdown } from "./getValueFromDropdown";
+
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
-import { Controller } from "react-hook-form";
 
 
 export default function Personalized(prop) {

@@ -9,7 +9,6 @@ import {
 } from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
 import { useState, useMemo, Fragment, useEffect } from "react";
-import { getValueFromDropdown } from "./getValueFromDropdown";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { useFieldArray } from "react-hook-form";

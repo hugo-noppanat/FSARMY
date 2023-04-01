@@ -1,7 +1,6 @@
 import {Grid, Input, Button, Text, Card, Checkbox} from "@nextui-org/react";
 import DropdownInput from "../../../components/DropdownInput";
 import { useState, useEffect} from "react";
-import { getValueFromDropdown } from "./getValueFromDropdown";
 
 export default function EducationForm(prop){
   const {
