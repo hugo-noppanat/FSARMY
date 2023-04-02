@@ -24,7 +24,6 @@ jobs:
     
     - name: Install dependencies
       run: | 
-        cd FSARMY
         npm ci
 
     - name: Creating a Production Build of React App
