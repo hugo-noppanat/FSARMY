@@ -21,6 +21,10 @@ jobs:
       with:
         node-version: '16.x' # Change according to the installed version
         cache: 'npm'
+    - name: echo Path
+      run: |
+        echo $(pwd)
+        echo $(ls)
     
     - name: Install dependencies
       run: | 
