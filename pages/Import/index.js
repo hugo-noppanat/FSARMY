@@ -2,6 +2,7 @@ import { useEffect, useState, Fragment} from 'react';
 import { Card, Text, Button, Grid} from '@nextui-org/react';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import QrCode2OutlinedIcon from '@mui/icons-material/QrCode2Outlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import HeaderMenuBar from '../../components/headerMenuBar';
 
@@ -103,10 +104,47 @@ export default function Import(){
               </Card.Header>
             </Card>
           </Grid>
+          <Grid xs={12} justify="center">
+            <Card
+              isPressable
+              isHoverable
+              variant="bordered"
+              css={{ p: "$6", mw: "90%" }}
+              onClick={() => {
+                setSelectData("qrcode");
+                setPageName("คิวอาร์โค้ด");
+              }}
+            >
+              <Card.Header>
+                <QrCode2OutlinedIcon sx={{ fontSize: 60 }} />
+                <Grid.Container
+                  css={{ pl: "$6", paddingLeft: "25px" }}
+                  // justify="center"
+                  // align="center"
+                >
+                  <Grid xs={12}>
+                    <Text h4 css={{ lineHeight: "$xs" }}>
+                      คิวอาร์โค้ด
+                    </Text>
+                  </Grid>
+                  {/* <div className="line" style={{height:"0px"}}></div> */}
+                  <Grid xs={12} css={{ marginTop: "10px" }}>
+                    <Text css={{ color: "$accents8", fontSize: "80%" }}>
+                      คิวอาร์โค้ดสำหรับทหารใหม่
+                    </Text>
+                  </Grid>
+                </Grid.Container>
+                <KeyboardArrowRightIcon sx={{ fontSize: 60 }} />
+              </Card.Header>
+            </Card>
+          </Grid>
         </Grid.Container>
       )}
-      {selectData === "import" && <ImportPage />}
+      {selectData === "import" && <ImportPage 
+        setSelectData={setSelectData}
+      />}
       {selectData === "export" && <h1>export</h1>}
+      {selectData === "qrcode" && <ExportQR/>}
     </Fragment>
   );
 }
@@ -114,6 +152,7 @@ export default function Import(){
 import { getServerSession } from 'next-auth';
 import { authOptions } from "../api/auth/[...nextauth]";
 import ImportPage from './importPage';
+import ExportQR from './exportqr';
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions)
   if(!session) {

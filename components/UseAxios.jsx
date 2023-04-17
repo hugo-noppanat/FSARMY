@@ -15,15 +15,29 @@ export default async function UseAxios({
     data: JSON.stringify(inputData),
   };
 
-  const response = await axios(config)
-    .then((response) => {
-      return response;
-    })
+  // const response = await axios(config)
+  //   .then((response) => {
+  //     return response;
+  //   })
 
-    .catch((error) => {
-      // console.log(error);
-      return error;
-    });
+  //   .catch((error) => {
+  //     // console.log(error);
+  //     return error;
+  //   });
 
-    return response.data;
+  //   return response.data;
+
+  try {
+    const response = await axios(config);
+    // console.log(response);
+    if (Math.floor((response.status/10)%100) == 20) {
+      return response.data;
+    }
+    // else{
+    //   return response.data?.response?.data;
+    // }
+  }
+  catch (error) {
+    return error.response?.data;
+  }
 }

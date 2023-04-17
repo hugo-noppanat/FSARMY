@@ -20,10 +20,10 @@ export const authOptions = {
         })
         const data = await res.json()
         const user = {
-          _id: data.accesstoken,
           name: data.user,
-          email: data.accesstoken,
-
+          accessToken: data.accesstoken,
+          role: data.role,
+          dept: data.detp,
         }
       
         if (res.ok && user) {
@@ -47,11 +47,20 @@ export const authOptions = {
       return credentials
     },
     session: async ({ session, token }) => {
+      // console.log("session",token);
+      if(token){
+        session.role = token.role;
+        session.dept = token.dept;
+        session.accessToken = token.access_token;
+      }
       return session;
     },
     jwt: async ({ token, user }) => {
-      // console.log("jwt",token,user);
-      user && (token.user = user);
+      if (user) {
+        token.access_token = user.accessToken;
+        token.role = user.role;
+        token.dept = user.dept;
+      }
       return token;
     },
   },
