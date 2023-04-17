@@ -6,6 +6,7 @@ import QrCode2OutlinedIcon from '@mui/icons-material/QrCode2Outlined';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import HeaderMenuBar from '../../components/headerMenuBar';
 
+
 export default function Import(){
   const [selectData, setSelectData] = useState([]);
   const [editData, setEditData] = useState(false);
@@ -143,7 +144,7 @@ export default function Import(){
       {selectData === "import" && <ImportPage 
         setSelectData={setSelectData}
       />}
-      {selectData === "export" && <h1>export</h1>}
+      {selectData === "export" && <h1><ExportPage/></h1>}
       {selectData === "qrcode" && <ExportQR/>}
     </Fragment>
   );
@@ -153,6 +154,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from "../api/auth/[...nextauth]";
 import ImportPage from './importPage';
 import ExportQR from './exportqr';
+import ExportPage from './exportPage';
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions)
   if(!session) {
