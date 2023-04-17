@@ -8,6 +8,7 @@ export default function MenuCard(props){
         icon,
         description,
         path,
+        key,
     } = props
 
     const router = useRouter();
@@ -18,8 +19,8 @@ export default function MenuCard(props){
 
     return(
         // Object.values(menu).map(i =>{
-        <div className="col-12 col-md-3 pb-4" key={`${uuidv4()}`}>
-            <div className="card" style={{"border": "0px solid black", "height":"100%",}}  key={`${uuidv4()}`}>
+        <div className="col-12 col-md-3 pb-4" key={key}>
+            <div className="card" style={{"border": "0px solid black", "height":"100%",}}  key={key}>
                 <div className="card-body">
                     <h4 className="card-title line">{headerName}</h4>
                     <div className="row card-text">

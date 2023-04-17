@@ -49,7 +49,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
-          formName={"englishLanguageAbility"}
+          formName="englishLanguageAbility"
           nameLabel={"ภาษาอังกฤษ"}
           menuItems={ability}
           reactHookForm={reactHookForm}
@@ -65,7 +65,7 @@ export default function OtherInfoForm(prop){
       </Grid> */}
       <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
-          formName={"karanLanguageAbility"}
+          formName="karanLanguageAbility"
           nameLabel={"ภาษากระเหรี่ยง"}
           menuItems={ability}
           reactHookForm={reactHookForm}
@@ -73,7 +73,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid css={{marginLeft:"4rem"}}>
         <DropdownInput
-          formName={"MyanmarLanguageAbility"}
+          formName="MyanmarLanguageAbility"
           nameLabel={"ภาษาพม่า"}
           menuItems={ability}
           reactHookForm={reactHookForm}
@@ -92,7 +92,7 @@ export default function OtherInfoForm(prop){
       <Grid xs={12}></Grid>
       <Grid>
         <DropdownInput
-          formName={"jobAbility"}
+          formName="jobAbility"
           nameLabel={"ความสามารถด้านอาชีพ"}
           menuItems={yep}
           reactHookForm={reactHookForm}
@@ -100,7 +100,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"SportAbility"}
+          formName="SportAbility"
           nameLabel={"ความสามารถด้านกีฬา"}
           menuItems={yep}
           reactHookForm={reactHookForm}
@@ -108,7 +108,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"MusicAbility"}
+          formName="MusicAbility"
           nameLabel={"ความสามารถด้านดนตรี/ศิลปะ"}
           menuItems={yep}
           reactHookForm={reactHookForm}
@@ -116,7 +116,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"DriverAbility"}
+          formName="DriverAbility"
           nameLabel={"ความสามารถในการขับขี่"}
           menuItems={yep}
           reactHookForm={reactHookForm}
@@ -124,7 +124,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"DriverLicense"}
+          formName="DriverLicense"
           nameLabel={"ท่านมีใบอนุญาตขับขี่รถยนต์หรือไม่"}
           menuItems={yep}
           reactHookForm={reactHookForm}
@@ -132,7 +132,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"reasonForEnlistment"}
+          formName="reasonForEnlistment"
           nameLabel={"เหตุเข้ารับราชการ"}
           menuItems={reasonEntry}
           reactHookForm={reactHookForm}
@@ -156,7 +156,7 @@ export default function OtherInfoForm(prop){
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"arrested"}
+          formName="arrested"
           nameLabel={"เคยถูกจับกุมหรือไม่"}
           menuItems={hdh}
           reactHookForm={reactHookForm}

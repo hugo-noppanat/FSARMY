@@ -196,7 +196,7 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"F_zipcode"}
+          formName="F_zipcode"
           nameLabel={"รหัสไปรษณีย์"}
           menuItems={zipcode.filter(
             (item) => item.value == watch("F_subDistrict")
@@ -365,7 +365,7 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"M_zipcode"}
+          formName="M_zipcode"
           nameLabel={"รหัสไปรษณีย์"}
           menuItems={zipcode.filter(
             (item) => item.value == watch("M_subDistrict")
@@ -391,7 +391,7 @@ export default function FamilyForm(prop) {
           // disable={true}
         />
       </Grid>
-      <Grid xs={12}>
+      <Grid xs={12} justify="end">
         <Checkbox onChange={()=> {checkbox2 ? setCheckbox2(false): setCheckbox2(true)}} size="xs">มีภรรยาที่ถูกต้องตามกฏหมาย</Checkbox>
       </Grid>
       {/* ภรรยา */}
@@ -511,7 +511,7 @@ export default function FamilyForm(prop) {
           </Grid>
           <Grid>
             <DropdownInput
-              formName={"W_zipcode"}
+              formName="W_zipcode"
               nameLabel={"รหัสไปรษณีย์"}
               menuItems={zipcode.filter(
                 (item) => item.value == watch("W_subDistrict")
@@ -530,7 +530,7 @@ export default function FamilyForm(prop) {
           </Grid>
         </>
       )}
-      <Grid xs={12}>
+      <Grid xs={12} justify="end">
         <Checkbox onChange={()=> {checkbox ? setCheckbox(false): setCheckbox(true)}} size="xs">
           มีบุตร
         </Checkbox>
@@ -739,7 +739,7 @@ export default function FamilyForm(prop) {
       </Grid>
       <Grid>
         <DropdownInput
-          formName={"R_zipcode"}
+          formName="R_zipcode"
           nameLabel={"รหัสไปรษณีย์"}
           menuItems={zipcode.filter(
             (item) => item.value == watch("R_subDistrict")

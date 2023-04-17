@@ -3,6 +3,7 @@ import QrReader from 'react-qr-scanner'
 import ToastMessage from '../../components/Toast';
 import { useRouter } from 'next/router';
 import {Navigate} from 'react-router-dom';
+import { Row } from '@nextui-org/react';
 
 export default function Scanner() {
   const router = useRouter()
@@ -29,7 +30,7 @@ export default function Scanner() {
     if(result){
       const idcode = (result.split("id="))?.[1]
       if(idcode){
-        router.push(`/healthRecord/save?${idcode}`)
+        router.push(`/healthRecord/save?id=${idcode}`)
     }
     }
   },[result])
@@ -41,12 +42,14 @@ export default function Scanner() {
 
   return(
     <div>
+      <Row justify='center'>
       <QrReader
         delay={delay}
         style={previewStyle}
         onError={handleError}
         onScan={handleScan}
         />
+      </Row>
     </div>
   )
 }

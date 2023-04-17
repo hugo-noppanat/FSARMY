@@ -26,7 +26,7 @@ export default function DropdownInput(prop) {
           control={reactHookForm.control}
           register={reactHookForm.register}
           setValue={reactHookForm.setValue}
-          render={({ field: { onChange, value } }) => (
+          render={({field: { onChange, value }}) => (
             <>
               <Row>
                 <Text
@@ -43,6 +43,8 @@ export default function DropdownInput(prop) {
                   value={menuItems.find((c) => c.value === value)}
                   onChange={(val) => onChange(val.value)}
                   defaultValue={menuItems.find((c) => c.value === selected)}
+                  isDisabled={isReadOnly}
+                  required={true}
                 />
               </Row>
             </>
@@ -71,10 +73,12 @@ export default function DropdownInput(prop) {
                   {nameLabel}
                 </label>
                 <Select
+                  style={{ menuPortal: base => ({ ...base, zIndex: 9999 }) }}
                   options={menuItems}
                   value={menuItems.find((c) => c.value === value)}
                   onChange={(val) => onChange(val.value)}
                   defaultValue={menuItems.find((c) => c.value === selected)}
+                  required
                 />
               </div>
             </>

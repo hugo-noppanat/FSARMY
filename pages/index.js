@@ -3,10 +3,14 @@ import { v4 as uuidv4 } from 'uuid';
 import { useSession } from 'next-auth/react';
 import { getServerSession } from 'next-auth'
 import { authOptions } from "./api/auth/[...nextauth]";
-import { useRouter } from "next/router";
-
+import UseAxios from "../components/UseAxios";
+import { useEffect, useState } from "react";
+import {getSession} from 'next-auth/react';
 
 export default function Home() {
+  // const token = getSession();
+  const [menu, setMenu] = useState([])
+  const [count, setCount] = useState(0)
   const {data:session} = useSession({
     required: true,
   })
@@ -19,43 +23,36 @@ export default function Home() {
     )
   }
 
-  const menu = {
-    personalInfo :{
-      name: "ข้อมูลประวัติส่วนตัว",
-      icon: "person-lines-fill",
-      description:"เพิ่ม แก้ไข ข้อมูลประวัติส่วนตัวของหทารใหม่",
-      path: "/Personal_Info"
-    },
-    medicalInfo :{
-      name: "ข้อมูลการแพทย์",
-      icon:"bag-plus",
-      description:"เพิ่ม แก้ไข ข้อมูลการแพทย์ของทหารใหม่",
-      path: "/Medical_Info"
-    },
-    report :{
-      name: "ข้อมูลรายงาน",
-      icon: "card-list",
-      description:"ดูสรุปข้อมูลรายงานต่างๆ ของทหารใหม่",
-      path: "/Report"
-    },
-    evalution : {
-      name: "การประเมินผล",
-      icon: "person-badge",
-      description:"การประเมินผลการฝึกรายบุคคลของทหารใหม่",
-      path: "/PerformanceForm"
-    },
-    importData :{
-      name: "Import/Export",
-      icon:"arrow-down-up",
-      description:"การนำเข้าและส่งออกชุดข้อมูลต่างๆ ของทหารใหม่",
-      path: "/Import"
-    },
-    setting:{
-      name: "การตั้งค่า",
-      icon:"gear",
-      description:"ตั้งค่าตัวเลือกข้อมูล และการเปิดปิดแบบฟอร์มของระบบ",
-      path: "/Setting"
+  async function loadMenu (){
+
+    const res = await UseAxios({
+      method: "post",
+      url: `${process.env.NEXT_PUBLIC_SSARMY_AUTHEN}/masterProgram/getProgramByRole`,
+      data: {
+        ROLE_ID : session.role,
+      },
+      auth: session.accessToken
+    })
+
+    if(res.success){
+      let menu = res?.data.map(i => {
+        return(
+          {
+            name: i.NAME,
+            icon: i.ICONNAME,
+            description: i.DESCRIPTION,
+            path: i.PATH,
+          }
+        )
+        })
+  
+      setMenu(menu)
     }
+  }
+  
+  if(count < 3){
+    loadMenu();
+    setCount(count+1)
   }
 
   return (
@@ -84,7 +81,6 @@ export default function Home() {
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
-  // const router = useRouter();
   if(!session) {
     return {
       redirect: {

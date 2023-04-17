@@ -6,10 +6,11 @@ import PersonalDetail from './Personal_Detail';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "../api/auth/[...nextauth]";
 import { useForm } from 'react-hook-form';
-import UseAxios from '../../components/UseAxios';
+import useAxios from '../../components/UseAxios';
 import ToastMessage from '../../components/Toast'
 import {getSession} from 'next-auth/react';
-import { getOptionsFromChildren } from '@mui/base';
+import { Loading, Row } from "@nextui-org/react"
+
 
 export default function Personal_Info(props){
   // const {data:session} = useSession({
@@ -21,47 +22,8 @@ export default function Personal_Info(props){
   const [selectData, setSelectData] = useState([]);
   const [editData, setEditData] = useState(false);
   const [viewData, setViewData] = useState(false);
-  
-  const editFunction = (rows) => {
-    setSelectData(rows);
-    setEditData(true);
-  }
-
-  const viewFunction = (rows) => {
-    setSelectData(rows);
-    setViewData(true);
-  }
-
-  const columns = [
-    {name: "ยศชื่อ-นามสกุล", uid: "name" },
-    {name: "รหัสบัตรประชาชน", uid: "id_card" },
-    {name: "รหัสประจำตัวทหาร", uid: "rta_id" },
-    {name: "สังกัด", uid: "detp" },
-    {name: "หน่วย", uid: "sub_detp" },
-    {name: "action", uid: "actions" },
-  ]
-
-  const loadDataTable = [
-    {
-      id: 21,
-      avatar: 'https://www.w3schools.com/howto/img_avatar.png',
-      name: 'พลทหาร สามารถสี่ สมบัติ',
-      rta_id: '124567890',
-      id_card: '1234567890123',
-      detp:'ร.14 พัน 2',
-      sub_detp:"ร้อย.อวบ.2",
-    },
-    {
-      id: 24,
-      avatar: 'https://www.w3schools.com/howto/img_avatar.png',
-      name: 'พลทหาร สองสาม สมบัติ',
-      rta_id: '445751258',
-      id_card: '789456213555',
-      detp:'ร.14 พัน 2',
-      sub_detp:"ร้อย.อวบ.1",
-    },
-  ]
-
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [subDistrict, setSubDistrict] = useState([]);
   const [district, setDistrict] = useState([]);
   const [province, setProvince] = useState([]);
@@ -80,20 +42,80 @@ export default function Personal_Info(props){
   const [yep, setYep] = useState([]);
   const [reasonEntry, setReasonEntry] = useState([]);
   const [ability, setAbility] = useState([]);
+  const [personal, setPersonal] = useState([]);
+
+  
+  const editFunction = (rows) => {
+    setSelectData(rows);
+    setEditData(true);
+  }
+
+  const viewFunction = (rows) => {
+    setSelectData(rows);
+    setViewData(true);
+  }
+
+  const columns = [
+    {name: "ยศชื่อ-นามสกุล", uid: "name" },
+    // {name: "รหัสบัตรประชาชน", uid: "id_card" },
+    {name: "รหัสประจำตัวทหาร", uid: "rta_id" },
+    {name: "สังกัด", uid: "detp" },
+    // {name: "หน่วย", uid: "sub_detp" },
+    {name: "action", uid: "actions" },
+  ]
+
+  const loadDataTable = async() => {
+    let session = await getSession()
+
+    const data = await useAxios(
+      {
+        method: "post",
+        url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/callInfo/soldier`,
+        data: {
+          "RESP_UNIT": session?.dept,
+        },
+        auth: session?.accessToken
+      }
+    )
+    if(data){
+      const res = data.data.map((i) =>{
+        return(
+          {
+            id: i.PERSOANL_ID,
+            name: `${i.FRIST_NAME} ${i.LAST_NAME}`,
+            rta_id: i.PERSOANL_ID,
+            detp: i.DEPT,
+          }
+        )
+      })
+      setData(res)
+      setLoading(false)
+    }else{
+      ToastMessage({
+        type: "error",
+        message: "ไม่สามารถโหลดข้อมูลได้"
+      })
+      setLoading(false)
+    }
+
+  }
+
+  useEffect(() => {
+    loadDataTable()
+  }, [])
+
 
   async function getOptions (){
-    const token = await getSession();
-    const getSubDistrict = await UseAxios({
+    const getSubDistrict = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Tombon"
       },
-      auth: token.user.email
     })
-    // console.log(getSubDistrict);
+
     if(getSubDistrict?.status === 'success') {
-    const data = getSubDistrict.data.map((item) => {
+    const data = getSubDistrict?.data.map((item) => {
         return {
           value: item.SSG_ID,
           label: item.SSG_NAME
@@ -104,14 +126,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n SubDistrict Error"})
     }
 
-    const getDistrict = await UseAxios({
+    const getDistrict = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"District"
       },
-      auth: token.user.email
+      // // auth: token.user.accessToken
     })
+
     if(getDistrict?.status === 'success') {
     const data = getDistrict.data.map((item) => {
         return {
@@ -124,14 +147,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n District Error"})
     }
 
-    const getProvince= await UseAxios({
+    const getProvince= await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Province"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getProvince?.status === 'success') {
     const data = getProvince.data.map((item) => {
         return {
@@ -144,14 +168,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Province Error"})
     }
 
-    const getZipCode = await UseAxios({
+    const getZipCode = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"zipCode"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getZipCode?.status === 'success') {
     const data = getZipCode.data.map((item) => {
         return {
@@ -165,14 +190,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n ZipCode Error"})
     }
 
-    const getYn = await UseAxios({
+    const getYn = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Y/N"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getYn?.status === 'success') {
     const data = getYn.data.map((item) => {
         return {
@@ -185,14 +211,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Y/N Error"})
     }
 
-    const getHnh = await UseAxios({
+    const getHnh = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"hdh"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getHnh?.status === 'success') {
     const data = getHnh.data.map((item) => {
         return {
@@ -205,14 +232,14 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n HDH Error"})
     }
 
-    const getSize = await UseAxios({
+    const getSize = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Size"
       },
-      auth: token.user.email
     })
+
     if(getSize?.status === 'success') {
     const data = getSize.data.map((item) => {
         return {
@@ -225,14 +252,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Size Error"})
     }
 
-    const getndn = await UseAxios({
+    const getndn = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"NY/NN"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getndn?.status === 'success') {
     const data = getndn.data.map((item) => {
         return {
@@ -245,14 +273,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n NDN Error"})
     }
 
-    const getStatus = await UseAxios({
+    const getStatus = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Status"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getStatus?.status === 'success') {
     const data = getStatus.data.map((item) => {
         return {
@@ -265,14 +294,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Status Error"})
     }
 
-    const getStatusLife = await UseAxios({
+    const getStatusLife = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"StatusLife"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getStatusLife?.status === 'success') {
     const data = getStatusLife.data.map((item) => {
         return {
@@ -285,14 +315,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n StatusLife Error"})
     }
 
-    const getDyn = await UseAxios({
+    const getDyn = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"DYN"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getDyn?.status === 'success') {
     const data = getDyn.data.map((item) => {
         return {
@@ -305,14 +336,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n DYN Error"})
     }
 
-    const getDrugType = await UseAxios({
+    const getDrugType = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"DrugType"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getDrugType?.status === 'success') {
     const data = getDrugType.data.map((item) => {
         return {
@@ -325,14 +357,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n DrugType Error"})
     }
 
-    const getTimimg = await UseAxios({
+    const getTimimg = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Timimg"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getTimimg?.status === 'success') {
     const data = getTimimg.data.map((item) => {
         return {
@@ -345,14 +378,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Timimg Error"})
     }
 
-    const getStatusLiving = await UseAxios({
+    const getStatusLiving = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"StatusLiving"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getStatusLiving?.status === 'success') {
     const data = getStatusLiving.data.map((item) => {
         return {
@@ -365,14 +399,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n StatusLiving Error"})
     }
 
-    const getEducation = await UseAxios({
+    const getEducation = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"EducationLevel"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getEducation?.status === 'success') {
     const data = getEducation.data.map((item) => {
         return {
@@ -385,14 +420,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Education Error"})
     }
 
-    const getYep = await UseAxios({
+    const getYep = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Yep"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getYep?.status === 'success') {
     const data = getYep.data.map((item) => {
         return {
@@ -405,14 +441,15 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Yep Error"})
     }
 
-    const getReasonEntry = await UseAxios({
+    const getReasonEntry = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"ReasonEntry"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
+
     if(getReasonEntry?.status === 'success') {
     const data = getReasonEntry.data.map((item) => {
         return {
@@ -425,32 +462,53 @@ export default function Personal_Info(props){
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n ReasonEntry Error"})
     }
 
-    const getAbility = await UseAxios({
+    const getAbility = await useAxios({
       url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/setting/searchGlobalSetting`,
       method: 'post',
       data:{
         SG_NAME:"Ability"
       },
-      auth: token.user.email
+      // auth: token.user.accessToken
     })
     if(getAbility?.status === 'success') {
     const data = getAbility.data.map((item) => {
         return {
           value: item.SSG_ID,
-          label: item.SSG_NAME
+          label: item.SSG_DESCP
         }
       });
     setAbility(data);
     }else{
       ToastMessage({type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n Ability Error"})
     }
+    setLoading(false)
+  }
 
+  async function personalInfo() {
+    const token = await getSession();
+    const result = await useAxios({
+      url: `${process.env.NEXT_PUBLIC_SSARMY_TRNSECTION}/callInfo/soldierbyid`,
+      method: 'post',
+      data: {
+        PERSOANL_ID: selectData.rta_id
+      },
+      auth: token?.accessToken
+    })
+    if (result?.status === 'success') {
+      setPersonal(result.data);
+      // console.log(personal);
+    } else {
+      ToastMessage({ type: "error", message: "ไม่สามารถดึงข้อมูลได้ (กรุณาติดต่อผู้ดูแลระบบ) \n PersonalInfo Error" })
+    }
   }
 
   useEffect(() => {
+    setLoading(true);
     getOptions();
     if (selectData.length === 0) {
       reset();
+    }else{
+      personalInfo();
     }
   }, [selectData])
 
@@ -472,10 +530,12 @@ export default function Personal_Info(props){
         {editData || viewData && selectData ? (
           <PersonalDetail
             userProfile={selectData}
+            personal={personal}
             editData={editData}
             viewData={viewData}
             setEditData={setEditData}
             setViewData={setViewData}
+            setSelectData={setSelectData}
             subDistrict={subDistrict}
             district={district}
             province={province}
@@ -498,13 +558,19 @@ export default function Personal_Info(props){
             reactHookForm={reactHookForm}
             />
         ):(
-          <TableCard
-          columns={columns}
-          data={loadDataTable}
-          editFunction={editFunction}
-          viewFunction={viewFunction}
-          // setSelectData={setSelectData}
+          !loading ?(
+            <TableCard
+            columns={columns}
+            data={data}
+            editFunction={editFunction}
+            viewFunction={viewFunction}
+            // setSelectData={setSelectData}
           />
+          ):(
+            <Row justify="center" align="center" css={{marginTop:"10%"}}>
+               <Loading size="lg" type="points" color="primary" />
+            </Row>
+          )
         )}
         
       </div>
@@ -514,7 +580,7 @@ export default function Personal_Info(props){
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
-  // const router = useRouter()
+  // console.log(session);
   if(!session) {
     return {
       redirect: {
