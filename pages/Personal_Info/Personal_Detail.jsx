@@ -201,7 +201,7 @@ export default function PersonalDetail(prop) {
       address.map((item, index) => {
         setValue(`${item.TYPEADDRESS}_province`, item.PROVINCE ? item.PROVINCE : null)
         setValue(`${item.TYPEADDRESS}_district`, item.DISTRICT ? item.DISTRICT : null)
-        setValue(`${item.TYPEADDRESS}_subdistrict`, item.SUBDISTRICT ? item.SUBDISTRICT : null)
+        setValue(`${item.TYPEADDRESS}_subDistrict`, item.SUBDISTRICT ? item.SUBDISTRICT : null)
         setValue(`${item.TYPEADDRESS}_address`, item.ADDRESS1 ? item.ADDRESS1 : null)
         setValue(`${item.TYPEADDRESS}_moo`, item.ADDRESS2 ? item.ADDRESS2 : null)
         setValue(`${item.TYPEADDRESS}_soi`, item.ADDRESS3 ? item.ADDRESS3 : null)
