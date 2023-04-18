@@ -8,12 +8,12 @@ export default function ExportQR() {
     {
       id: "Fge4sp41",
       name: "พลทหารสันติสุข สุขสันติ",
-      url: `${process.env.NEXTAUTH_URL}/view?userid=${"Fge4sp41"}}`,
+      url: `${process.env.NEXT_PUBLIC_QR_URL}/view?userid=${"Fge4sp41"}}`,
     },
     {
       id: "Fsd4ap42",
       name: "พลทหารธนพล พรหมสุข",
-      url: `${process.env.NEXTAUTH_URL}/view?userid=${"Fge4sp42"}}`,
+      url: `${process.env.NEXT_PUBLIC_QR_URL}/view?userid=${"Fge4sp42"}}`,
     },
   ];
 
@@ -27,7 +27,7 @@ export default function ExportQR() {
         </Grid>
         <Row justify="center">
           <QRCode
-            value={`${process.env.NEXTAUTH_URL}/Registration`}
+            value={`${process.env.NEXT_PUBLIC_QR_URL}/Registration`}
             size={200}
             logoImage={logo}
             logoWidth={60}
